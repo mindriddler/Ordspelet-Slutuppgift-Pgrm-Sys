@@ -7,6 +7,19 @@ def menu():
 -----------------------------
 9. Exit"""
 
+def menu_choice():
+    try:
+        choice = int(input("Välj ett alternativ: "))
+        if choice == 1:
+            user_guess()
+        elif choice == 2:
+            user_think()
+    except ValueError:
+        print("Vänligen ange ett giltligt alternativ.")
+        menu_choice()
+
+
+
 def get_word():
     try:
         file = open("words.txt", "r", encoding="utf-8")
@@ -19,3 +32,7 @@ def get_word():
         exit()
         
         
+        
+print(menu())
+get_word
+menu_choice()
