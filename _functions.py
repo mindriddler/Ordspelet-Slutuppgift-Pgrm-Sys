@@ -10,9 +10,12 @@ Spelregler är som följer!
 5. Ordet får inte ha plural-böjning.
 6. Ordet får inte ha upprepade bokstäver, så som "hemma".""")
     accept = input("\nAccepterar du spelreglerna? ").lower()
-    if accept == "Ja".lower():
+    if accept == "ja":
         print(main_menu())
         menu_choice()
+    elif accept == "nej":
+        print("Då får du inte lov att vara med och spela.\nAvslutar spelet.")
+        exit()
     else:
         print("Vänligen acceptera spelreglerna för att kunna spela.")
         splash_screen()
