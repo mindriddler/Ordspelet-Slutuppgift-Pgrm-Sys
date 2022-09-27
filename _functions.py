@@ -96,7 +96,8 @@ def user_guess():
                     correct_position += 1
                 elif l in guess:
                     correct_letter += 1
-            print(f"{correct_position} bokstäver på korrekt plats!\n{correct_letter} korrekta bokstäver men på fel plats.")
+            
+            print(f"\n{correct_position} bokstäver på RÄTT plats!\n{correct_letter} korrekta bokstäver men på FEL plats.")
         
 
 def user_think():
