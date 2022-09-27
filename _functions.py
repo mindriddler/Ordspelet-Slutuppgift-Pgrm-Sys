@@ -1,6 +1,7 @@
 import random
 
-
+num_of_guesses = 0
+end_of_game = False
 
 def splash_screen():
     print("""
@@ -58,24 +59,29 @@ def menu_choice():
         menu_choice()
 
 def user_guess():
-    guess = input("Gissar på ett ord: ").lower()
-    if len(guess) != 5:    
-        print("Vänligen ange ett giltligt ord.")
-        user_guess()
-    if guess == get_word().lower():
-        print("Du gissade rätt!")
-    else:
-        correct_position = 0
-        correct_letter = 0
+    global num_of_guesses
+    global end_of_game 
+    
+    while not end_of_game:
+        guess = input("Gissar på ett ord: ").lower()
+        num_of_guesses += 1
+        if len(guess) != 5:    
+            print("Vänligen ange ett giltligt ord.")
+            num_of_guesses -= 1 # To not count the guess if it's not valid
+        elif guess == get_word().lower():
+            print("Du gissade rätt!")
+            print(f"Du hade totalt {num_of_guesses} gissningar.")
+            end_of_game = True
+        else:
+            correct_position = 0
+            correct_letter = 0
 
-        for i,l in enumerate(get_word().lower()):
-            if l==guess[i]:
-                correct_position+=1
-            elif l in guess:
-                correct_letter+=1
-
-        print(f"{correct_position} letters in correct position, {correct_letter} correct letters in wrong position.")
-        user_guess()
+            for i,l in enumerate(get_word().lower()):
+                if l==guess[i]:
+                    correct_position+=1
+                elif l in guess:
+                    correct_letter+=1
+            print(f"{correct_position} letters in correct position, {correct_letter} correct letters in wrong position.")
         
 
 
