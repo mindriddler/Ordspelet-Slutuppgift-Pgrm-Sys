@@ -39,7 +39,7 @@ def get_word():
         file = open("words.txt", "r", encoding="utf-8")
         words = file.read()
         listOfWords = words.split("\n")
-        randWord = random.choice(listOfWords)
+        randWord = "Polis" # random.choice(listOfWords)
         return randWord
     except FileNotFoundError:
         print("Filen 'words.txt' måste finnas i din nuvarande mapp för att spelet ska köra.\nVänligen lägg till filen och försök igen.")
@@ -64,6 +64,25 @@ def user_guess():
         user_guess()
     if guess == get_word().lower():
         print("Du gissade rätt!")
+    else:
+        correct_position = 0
+        correct_letter = 0
+
+        for i,l in enumerate(get_word().lower()):
+            if l==guess[i]:
+                correct_position+=1
+            elif l in guess:
+                correct_letter+=1
+
+        print(f"{correct_position} letters in correct position, {correct_letter} correct letters in wrong position.")
+        user_guess()
+        
+
+
+
+
+
+
 
 
 
