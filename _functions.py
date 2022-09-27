@@ -1,3 +1,5 @@
+
+import msvcrt as m
 import random
 
 num_of_guesses = 0
@@ -22,7 +24,8 @@ Spelregler är som följer!
         print("Då får du inte lov att vara med och spela.\nAvslutar spelet.")
         exit()
     else:
-        print("Vänligen acceptera spelreglerna för att kunna spela.")
+        print("Vänligen acceptera spelreglerna för att kunna spela.\nTryck på valfri tangent för att fortsätta.")
+        m.getch()
         splash_screen()
 
 
@@ -47,13 +50,22 @@ def get_word():
         exit()
 
 
+def create_word_list():
+    try:
+        with open("words.txt", "r", encoding="utf-8") as file:
+            file_content = [word.strip() for word in file.readlines()]
+        return file_content
+    except FileNotFoundError:
+        print("Filen 'words.txt' måste finnas i din nuvarande mapp för att spelet ska köra.\nVänligen lägg till filen och försök igen.")
+        exit()
+
 def menu_choice():
     try:
         choice = int(input("Välj ett alternativ: "))
         if choice == 1:
             user_guess()
-        # elif choice == 2:
-            # user_think() Creating at a later stage
+        elif choice == 2:
+            user_think()
     except ValueError:
         print("Vänligen ange ett giltligt alternativ.")
         menu_choice()
@@ -66,6 +78,9 @@ def user_guess():
         guess = input("Gissar på ett ord: ").lower()
         num_of_guesses += 1
         if len(guess) != 5:    
+            print("Vänligen ange ett giltligt ord.")
+            num_of_guesses -= 1 # To not count the guess if it's not valid
+        elif guess.isalpha() == False:
             print("Vänligen ange ett giltligt ord.")
             num_of_guesses -= 1 # To not count the guess if it's not valid
         elif guess == get_word().lower():
@@ -81,11 +96,28 @@ def user_guess():
                     correct_position += 1
                 elif l in guess:
                     correct_letter += 1
-            print(f"{correct_position} letters in correct position, {correct_letter} correct letters in wrong position.")
+            print(f"{correct_position} bokstäver på korrekt plats!\n{correct_letter} korrekta bokstäver men på fel plats.")
         
 
-
-
+def user_think():
+    
+    global num_of_guesses
+    global end_of_game
+    
+    user_word = "Polis" #(input("Vad är ditt ord? ")).lower()
+    while not end_of_game:
+        
+        correct_position = 0
+        correct_letter = 0
+            
+        for i, l in enumerate(user_word.lower()):
+            if l == create_word_list()[i]:
+                correct_position += 1
+            elif l in create_word_list():
+                correct_letter += 1
+        print(f"{correct_position} letters in correct position, {correct_letter} correct letters in wrong position.")
+        
+    
 
 
 
