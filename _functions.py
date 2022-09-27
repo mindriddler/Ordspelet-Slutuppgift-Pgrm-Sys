@@ -2,10 +2,10 @@ def menu():
     
     return """
 ----------MAIN MENU----------
-1. Play as guesser
-2. Play as thinker
+1. Spela som gissare    
+2. Spela som tänkare
 -----------------------------
-9. Exit"""
+9. Avsluta"""
 
 def menu_choice():
     try:
@@ -18,7 +18,16 @@ def menu_choice():
         print("Vänligen ange ett giltligt alternativ.")
         menu_choice()
 
+def user_guess():
+    guess = input("Gissar på ett ord: ").lower()
+    if len(guess) != 5:    
+        print("Vänligen ange ett giltligt ord.")
+        user_guess()
+    if guess == get_word().lower():
+        print("Du gissade rätt!")
 
+    
+    
 
 def get_word():
     try:
