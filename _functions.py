@@ -1,4 +1,24 @@
-def menu():   
+def splash_screen():
+    print("""
+-----------------------------
+Spelregler är som följer!
+        
+1. Ordet måste vara svenskt.
+2. Ordet måste vara 5 bokstäver.
+3. Ordet får inte vara ett namn.
+4. Ordet får inte ha tempus-böjning.
+5. Ordet får inte ha plural-böjning.
+6. Ordet får inte ha upprepade bokstäver, så som "hemma".""")
+    accept = input("\nAccepterar du spelreglerna? ").lower()
+    if accept == "Ja".lower():
+        print(main_menu())
+        menu_choice()
+    else:
+        print("Vänligen acceptera spelreglerna för att kunna spela.")
+        splash_screen()
+
+
+def main_menu():   
     
     return """
 ----------MAIN MENU----------
@@ -13,7 +33,7 @@ def menu_choice():
         if choice == 1:
             user_guess()
         elif choice == 2:
-            user_think()
+            user_think() # Creating at a later stage
     except ValueError:
         print("Vänligen ange ett giltligt alternativ.")
         menu_choice()
@@ -42,6 +62,6 @@ def get_word():
         
         
         
-print(menu())
+splash_screen()
 get_word
-menu_choice()
+
