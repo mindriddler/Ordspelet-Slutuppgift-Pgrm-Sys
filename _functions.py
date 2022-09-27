@@ -76,11 +76,11 @@ def user_guess():
             correct_position = 0
             correct_letter = 0
 
-            for i,l in enumerate(get_word().lower()):
-                if l==guess[i]:
-                    correct_position+=1
+            for i, l in enumerate(get_word().lower()):
+                if l == guess[i]:
+                    correct_position += 1
                 elif l in guess:
-                    correct_letter+=1
+                    correct_letter += 1
             print(f"{correct_position} letters in correct position, {correct_letter} correct letters in wrong position.")
         
 
