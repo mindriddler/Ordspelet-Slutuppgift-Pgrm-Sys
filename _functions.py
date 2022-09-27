@@ -1,6 +1,8 @@
 
 import msvcrt as m
 import random
+from venv import create
+
 
 num_of_guesses = 0
 end_of_game = False
@@ -101,34 +103,14 @@ def user_guess():
         
 
 def user_think():
+    user_word = input("Vad är ditt ord?: ")
+    letter_list = list(user_word)
+    my_list = create_word_list()
+    print(letter_list)
     
-    global num_of_guesses
-    global end_of_game
-    
-    user_word = "Polis" #(input("Vad är ditt ord? ")).lower()
-    while not end_of_game:
-        
-        correct_position = 0
-        correct_letter = 0
-            
-        for i, l in enumerate(user_word.lower()):
-            if l == create_word_list()[i]:
-                correct_position += 1
-            elif l in create_word_list():
-                correct_letter += 1
-        print(f"{correct_position} letters in correct position, {correct_letter} correct letters in wrong position.")
-        
-    
-
-
-
-
-
-
-        
-        
-
-get_word()        
+    for l in range(letter_list):
+        my_new_list = [value_str for value_str in my_list if value_str[0] != letter_list[l]]    
+    print(len(my_new_list))
 splash_screen()
 
 
