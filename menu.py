@@ -44,10 +44,9 @@ def menu_choice():
             user_guess()
         elif choice == 2:
             user_think()
+        else:
+            print("Du måste ange 1 eller 2.")
+            menu_choice()
     except ValueError:
         print("Vänligen ange ett giltligt alternativ.")
         menu_choice()
-        
-        
-splash_screen()
-    

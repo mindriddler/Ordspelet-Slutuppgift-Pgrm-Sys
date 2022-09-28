@@ -1,45 +1,45 @@
 import random
 from functions_for_words import create_word_list
 
-num_of_guesses = 0
-end_of_game = False
-
-game_list = create_word_list()
-
-
-
+# Funktion för att loopa igenom tills ordlistan antigen är slut eller rätt ord är gissat
 def user_think():
     
-    global end_of_game
-    global game_list
+    end_of_game = False
+    python_list = create_word_list()
     
-    user_word = "Polis".lower()
+    user_word = input("Vad är ditt ord?: ").lower()
     
     while not end_of_game:
-        word = random.choice(game_list)
-        print(len(game_list))
-        print(f"Ditt ord: {user_word}")
-        print(f"Pythons gissning: '{word}'")
+        
+        word = random.choice(python_list)
+        print("Du kan avsluta spelet genom att skriva 'quit'")
+        print(f"\nDitt ord: {user_word}")
+        print(f"Pythons gissning: {word}")
+        
         player_check = input("Vänligen ange om gissningen är rätt eller fel: ").lower()
         
         if player_check == "rätt":
-            print("Grattis, du vann!")
+            print("Python lyckades gissa rätt!")
             end_of_game = True
         elif player_check == "fel":
-            correct_spot = input("Hur många rätt bokstäver på rätt plats?: ")
-            correct_char = input("Hur många rätt bokstäver på fel plats?: ")
-            total_right_chars = int(correct_spot) + int(correct_char)
-        
+            correct_spot = input("Hur många RÄTT bokstäver på RÄTT plats?: ")
+            correct_char = input("Hur många RÄTT bokstäver på FEL plats?: ")
+            correct_letters = int(correct_spot) + int(correct_char)
+        elif player_check == "quit":
+            exit()
+        elif len(python_list) == 0:
+            print("Python har inte fler ord kvar att gissa på.\nAvslutar spelet.")
+            end_of_game = True
+        else:
+            print("Du måste skriva 'rätt' eller 'fel'.")
             
-        if total_right_chars == 0:
-            game_list = [word for word in game_list if not len(
-                (set(user_word)).intersection(set(word))) == 5]
-        elif total_right_chars >= 1:
-            game_list = [word for word in game_list if len(
-                set(user_word).intersection(set(word))) >= total_right_chars]
-            if word in game_list:
-                game_list.remove(word)
-        print(len(game_list))
+        if correct_letters == 0:
+            python_list = [word for word in python_list if not len((set(user_word)).intersection(set(word))) == 5]
+        elif correct_letters >= 1:
+            python_list = [word for word in python_list if len(set(user_word).intersection(set(word))) >= correct_letters]
+            if word in python_list:
+                python_list.remove(word)
+
 
 
 
