@@ -8,7 +8,7 @@ def get_word():
         randWord = random.choice(listOfWords)
         return randWord
     except FileNotFoundError:
-        print("Filen 'words.txt' måste finnas i din nuvarande mapp för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
+        print("The file 'words.txt' must be in your current folder for the game to work.\nPlease add the file and try again.")
         exit()
 
 
@@ -18,4 +18,4 @@ def create_word_list():
             word_lst = [word.strip() for word in words.readlines()]
         return word_lst
     except FileNotFoundError:
-        print("Filen 'words.txt' måste finnas i din nuvarande mapp för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
+        print("The file 'words.txt' must be in your current folder for the game to work.\nPlease add the file and try again.")

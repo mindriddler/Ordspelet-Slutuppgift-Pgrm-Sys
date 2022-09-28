@@ -10,22 +10,22 @@ def user_guess():
     
     while not end_of_game:
         
-        guess = input("Gissa på ett ord: ").lower()
+        guess = input("Guess a word: ").lower()
         num_of_guesses += 1
         
         if len(guess) != 5:    
-            print("Vänligen ange ett giltligt ord.")
+            print("Kindly enter a valid word.")
             num_of_guesses -= 1 # To not count the guess if it's not valid
         elif guess.isalpha() == False:
-            print("Vänligen ange ett giltligt ord.")
+            print("Kindly enter a valid word.")
             num_of_guesses -= 1 # To not count the guess if it's not valid
         elif guess == word.lower():
-            print("Du gissade rätt!")
-            print(f"Du hade totalt {num_of_guesses} gissningar.")
+            print("You guess was correct!")
+            print(f"You had a total of {num_of_guesses} guesses.")
             end_of_game = True
             return end_of_game
         elif guess in guesses_words:
-            print("Du har redan gissat på det ordet. Prova med ett annat ord.")
+            print("You have already guessed the word. Please try another one.")
         elif guess == "quit":
             exit()
         else:
@@ -36,5 +36,5 @@ def user_guess():
                     correct_position += 1
                 elif l in guess:
                     correct_letter += 1
-            print(f"\n{correct_position} bokstäver på RÄTT plats!\n{correct_letter} korrekta bokstäver men på FEL plats.")
+            print(f"\n{correct_position} letter on CORRECT place!\n{correct_letter} correct letter but on INCORRECT place.")
             
