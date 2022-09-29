@@ -1,6 +1,7 @@
 import msvcrt as m
-from user_think import *
-from user_guess import *
+from user_think import user_think
+from user_guess import user_guess
+from functions import print_highscore
 
 def splash_screen():
     
@@ -36,6 +37,7 @@ def main_menu():
 ----------MAIN MENU----------
 1. Spela som gissare    
 2. Spela som tänkare
+3. Se nuvarande highscore
 -----------------------------
 9. Avsluta""")
 
@@ -46,7 +48,12 @@ def main_menu():
         elif choice == 2:
             user_think()
         elif choice == 3:
-            print_highscore()
+            try:
+                print_highscore()
+            except ValueError:
+                print("Det finns inga highscores än.")
+            print("\nTryck på valfri tangent för att fortsätta.")
+            m.getch()
             main_menu()
         elif choice == 9:
             exit()

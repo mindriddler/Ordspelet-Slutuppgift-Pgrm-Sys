@@ -1,1 +1,1 @@
-[["Fredrik O", 1], ["Fredrik M", 2], ["Fredrik J", 2], ["Johanna H", 3], ["Fredrik K", 5]]
+[["Fredrik M", 1], ["Johanna Hedlund", 1], ["Fredrik Magnusson", 1], ["Fredrik Magnusson", 1]]
