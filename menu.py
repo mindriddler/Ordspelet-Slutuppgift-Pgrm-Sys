@@ -21,7 +21,6 @@ Skriv 'nej' för att neka reglerna och avsluta spelet.""")
     accept = input("\nAccepterar du spelreglerna? ").lower()
     if accept == "ja":
         main_menu()
-        menu_choice()
     elif accept == "nej":
         print("Då får du inte lov att vara med och spela.\nAvslutar spelet.")
         exit()
@@ -40,19 +39,23 @@ def main_menu():
 -----------------------------
 9. Avsluta""")
 
-
-def menu_choice():
     try:
         choice = int(input("Välj ett alternativ: "))
         if choice == 1:
             user_guess()
         elif choice == 2:
             user_think()
+        elif choice == 3:
+            print_highscore()
+            main_menu()
         elif choice == 9:
             exit()
         else:
             print("Du måste ange 1 eller 2.")
-            menu_choice()
+            main_menu()
     except ValueError:
         print("Vänligen ange ett giltligt alternativ.")
-        menu_choice()
+        main_menu()
+
+
+

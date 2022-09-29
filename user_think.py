@@ -34,7 +34,7 @@ def user_think():
             print("Du måste skriva 'rätt' eller 'fel'.")
             
         if correct_letters == 0:
-            python_list = [word for word in python_list if not len((set(user_word)).intersection(set(word))) == 5]
+            python_list = [word for word in python_list if not len(set(user_word).intersection(set(word))) == 5]
         elif correct_letters >= 1:
             python_list = [word for word in python_list if len(set(user_word).intersection(set(word))) >= correct_letters]
             if word in python_list:
