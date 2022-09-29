@@ -5,13 +5,15 @@ def user_guess():
     end_of_game = False
     word = get_word()
     guesses_words = []
-    correct_position = 0
-    correct_letter = 0
+    
+    print("Du kan avsluta spelet genom att skriva 'quit'")
     
     while not end_of_game:
-        
+        correct_position = 0
+        correct_letter = 0
         guess = input("Gissa på ett ord: ").lower()
         num_of_guesses += 1
+        
         
         if len(guess) != 5:    
             print("Vänligen ange ett giltligt ord.")
@@ -23,9 +25,9 @@ def user_guess():
             print("Du gissade rätt!")
             print(f"Du hade totalt {num_of_guesses} gissningar.")
             end_of_game = True
-            return end_of_game
         elif guess in guesses_words:
             print("Du har redan gissat på det ordet. Prova med ett annat ord.")
+            num_of_guesses -= 1 # To not count the guess if it's not valid
         elif guess == "quit":
             exit()
         else:

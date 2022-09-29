@@ -8,16 +8,16 @@ def user_think():
     python_list = create_word_list()
     
     user_word = input("Vad är ditt ord?: ").lower()
+    print("Du kan avsluta spelet genom att skriva 'quit'")
     
     while not end_of_game:
         
         word = random.choice(python_list)
-        print("Du kan avsluta spelet genom att skriva 'quit'")
+        
         print(f"\nDitt ord: {user_word}")
         print(f"Pythons gissning: {word}")
         
         player_check = input("Vänligen ange om gissningen är rätt eller fel: ").lower()
-        
         if player_check == "rätt":
             print("Python lyckades gissa rätt!")
             end_of_game = True

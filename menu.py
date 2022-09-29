@@ -13,7 +13,11 @@ Spelregler är som följer!
 3. Ordet får inte vara ett namn.
 4. Ordet får inte ha tempus-böjning.
 5. Ordet får inte ha plural-böjning.
-6. Ordet får inte ha upprepade bokstäver, så som "hemma".""")
+6. Ordet får inte ha upprepade bokstäver, så som 'sitta'.
+
+Skriv 'ja' för att acceptera reglerna och börja spelet.
+Skriv 'nej' för att neka reglerna och avsluta spelet.""")
+    
     accept = input("\nAccepterar du spelreglerna? ").lower()
     if accept == "ja":
         main_menu()
@@ -22,7 +26,7 @@ Spelregler är som följer!
         print("Då får du inte lov att vara med och spela.\nAvslutar spelet.")
         exit()
     else:
-        print("Vänligen acceptera spelreglerna för att kunna spela.\nTryck på valfri tangent för att fortsätta.")
+        print("\nVänligen acceptera spelreglerna för att kunna spela.\nSkriv 'ja' för att acceptera reglerna och börja spelet.\nSkriv 'nej' för att neka reglerna och avsluta spelet.\nTryck på valfri tangent för att fortsätta.")
         m.getch()
         splash_screen()
 
@@ -44,6 +48,8 @@ def menu_choice():
             user_guess()
         elif choice == 2:
             user_think()
+        elif choice == 9:
+            exit()
         else:
             print("Du måste ange 1 eller 2.")
             menu_choice()

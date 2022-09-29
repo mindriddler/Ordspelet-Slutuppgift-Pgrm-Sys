@@ -19,3 +19,4 @@ def create_word_list():
         return word_lst
     except FileNotFoundError:
         print("Filen 'words.txt' måste finnas i din nuvarande mapp för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
+        exit()
