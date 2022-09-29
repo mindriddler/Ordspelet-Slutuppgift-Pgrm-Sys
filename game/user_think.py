@@ -1,11 +1,11 @@
 import random
-from functions import create_word_list
+import game.functions as f
 
 # Funktion för att loopa igenom tills ordlistan antigen är slut eller rätt ord är gissat
 def user_think():
     
     end_of_game = False
-    python_list = create_word_list()
+    python_list = f.create_word_list()
     
     user_word = input("Vad är ditt ord?: ").lower()
     print("Du kan avsluta spelet genom att skriva 'quit'")

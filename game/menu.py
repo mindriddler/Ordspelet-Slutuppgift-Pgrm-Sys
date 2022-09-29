@@ -1,7 +1,7 @@
 import msvcrt as m
-from user_think import user_think
-from user_guess import user_guess
-from functions import print_highscore, reset_highscore
+import game.user_guess as ug
+import game.user_think as ut
+import game.functions as f
 
 def splash_screen():
     
@@ -45,19 +45,19 @@ def main_menu():
     try:
         choice = int(input("Välj ett alternativ: "))
         if choice == 1:
-            user_guess()
+            ug.user_guess()
         elif choice == 2:
-            user_think()
+            ut.user_think()
         elif choice == 3:
             try:
-                print_highscore()
+                f.print_highscore()
             except ValueError:
                 print("Det finns inga highscores än.")
             print("\nTryck på valfri tangent för att fortsätta.")
             m.getch()
             main_menu()
         elif choice == 8:
-            reset_highscore()
+            f.reset_highscore()
         elif choice == 9:
             exit()
         else:

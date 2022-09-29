@@ -3,7 +3,7 @@ from itertools import islice
 import random
 import json
 from operator import itemgetter
-import menu
+import game.menu as menu
 
 
 def get_word():

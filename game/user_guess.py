@@ -1,10 +1,10 @@
-from functions import highscore, get_word
-import menu
+from game.functions import highscore, get_word
+import game.menu as menu
 
 def user_guess():
     num_of_guesses = 0
     end_of_game = False
-    word = "polis" #get_word()
+    word = get_word()
     guessed_words = []
         
     print("Du kan avsluta spelet genom att skriva 'quit'")
