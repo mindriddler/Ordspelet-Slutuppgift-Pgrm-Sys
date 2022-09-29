@@ -25,7 +25,8 @@ For how to install python 3.10, see instructions at the bottom
 - Start the game by accepting the rules
 - Choose 1 or 2 depending on if you want to be the guesser or the thinker
 - Follow the instructions shown on the screen
-- You can always quit the game at any time by writing "quit" when aksed for a input
+- You can always quit the game at any time by writing "quit" when asked for a input
+- Password to reset highscore is "qwerty123"
 
 ## **How to run** ##
 

@@ -34,7 +34,7 @@ def user_guess():
                 end_of_game = True
                 highscore(name, num_of_guesses)
             elif choice == "nej":
-                play_again = input("Vill du spela igen?: ").lower()
+                play_again = input("Vill du återvända till huvudmenyn?: ").lower()
                 if play_again == "ja":
                     end_of_game = True
                     menu.main_menu()

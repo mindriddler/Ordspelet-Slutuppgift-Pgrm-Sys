@@ -1,7 +1,7 @@
 import msvcrt as m
 from user_think import user_think
 from user_guess import user_guess
-from functions import print_highscore
+from functions import print_highscore, reset_highscore
 
 def splash_screen():
     
@@ -26,7 +26,7 @@ Skriv 'nej' för att neka reglerna och avsluta spelet.""")
         print("Då får du inte lov att vara med och spela.\nAvslutar spelet.")
         exit()
     else:
-        print("\nVänligen acceptera spelreglerna för att kunna spela.\nSkriv 'ja' för att acceptera reglerna och börja spelet.\nSkriv 'nej' för att neka reglerna och avsluta spelet.\nTryck på valfri tangent för att fortsätta.")
+        print("\nVänligen acceptera spelreglerna för att kunna spela.\n\nSkriv 'ja' för att acceptera reglerna och börja spelet.\nSkriv 'nej' för att neka reglerna och avsluta spelet.\n\nTryck på valfri tangent för att fortsätta.")
         m.getch()
         splash_screen()
 
@@ -55,10 +55,12 @@ def main_menu():
             print("\nTryck på valfri tangent för att fortsätta.")
             m.getch()
             main_menu()
+        elif choice == 8:
+            reset_highscore()
         elif choice == 9:
             exit()
         else:
-            print("Du måste ange 1 eller 2.")
+            print("Du måste ange siffran som stämmer överens med det val du vill göra.")
             main_menu()
     except ValueError:
         print("Vänligen ange ett giltligt alternativ.")
