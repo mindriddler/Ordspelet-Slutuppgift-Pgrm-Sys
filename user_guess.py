@@ -24,19 +24,22 @@ def user_guess():
             num_of_guesses -= 1 # To not count the guess if it's not valid
         elif guess == word.lower():
             print("Du gissade rätt!")
-            print(f"Du hade totalt {num_of_guesses} gissningar.\n")
+            if num_of_guesses == 1:
+                print(f"Du hade totalt {num_of_guesses} gissning.\n")
+            else:
+                print(f"Du hade totalt {num_of_guesses} gissningar.\n")
             choice = input("Vill du skriva in dig på toplistan?: ").lower()
             if choice == "ja":
                 name = input("Vänligen ange ditt fulla namn: ").title()
-                highscore(name, num_of_guesses)
                 end_of_game = True
+                highscore(name, num_of_guesses)
             elif choice == "nej":
                 play_again = input("Vill du spela igen?: ").lower()
                 if play_again == "ja":
                     end_of_game = True
                     menu.main_menu()
                 elif play_again == "nej":
-                    print(f"Avslutar spelet.")
+                    print(f"Avslutar spelet.\nHa en bra dag!")
                     end_of_game = True
                 else:
                     print("Du måste ange 'ja' eller 'nej'.")

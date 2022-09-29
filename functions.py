@@ -2,7 +2,6 @@ from itertools import islice
 import random
 import json
 from operator import itemgetter
-
 import menu
 
 
@@ -26,7 +25,7 @@ def create_word_list():
     except FileNotFoundError:
         print("Filen 'words.txt' måste finnas i din nuvarande mapp för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
         exit()
-        
+
 
 def highscore(name, num_of_guesses):
     try:
@@ -43,14 +42,20 @@ def highscore(name, num_of_guesses):
 
     highscores = []
     print("Din poäng har sparats!")
-    play_again = input("Vill du spela igen?: ").lower()
+    play_again_func()
+
+
+def play_again_func():   
+    play_again = input("\nVill du spela igen?: ").lower()
     if play_again == "ja":
         menu.main_menu()
     elif play_again == "nej":
-        print("Avslutar spelet.")
+        print("\nAvslutar spelet.\nHa en bra dag!")
         exit()
     else:
-        print("Du måste ange 'ja' eller 'nej'.")
+        print("\nDu måste ange 'ja' eller 'nej'.")
+        play_again_func()
+
 
 def print_highscore():
     with open('highscore.txt', 'r') as f:
