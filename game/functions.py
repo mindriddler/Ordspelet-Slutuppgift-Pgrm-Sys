@@ -8,23 +8,23 @@ import menu
 
 def get_word():
     try:
-        file = open("words.txt", "r", encoding="utf-8")
+        file = open("data\words.txt", "r", encoding="utf-8")
         words = file.read()
         listOfWords = words.split("\n")
         randWord = random.choice(listOfWords)
         return randWord
     except FileNotFoundError:
-        print("Filen 'words.txt' måste finnas i din nuvarande mapp för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
+        print("Filen 'words.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
         exit()
 
 
 def create_word_list():
     try:
-        with open("words.txt", "r", encoding="utf-8") as words:
+        with open("data\words.txt", "r", encoding="utf-8") as words:
             word_lst = [word.strip() for word in words.readlines()]
         return word_lst
     except FileNotFoundError:
-        print("Filen 'words.txt' måste finnas i din nuvarande mapp för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
+        print("Filen 'words.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
         exit()
 
 
@@ -59,7 +59,7 @@ def play_again_func():
 
 
 def print_highscore():
-    with open('highscore.txt', 'r') as f:
+    with open('data\highscore.txt', 'r') as f:
         highscores = json.load(f)
         limit = 10
     print("\nNuvarande topp 10 bästa spelrundor!")
@@ -72,16 +72,16 @@ def print_highscore():
 def reset_highscore():
     password = input("Ange lösenord: ").lower()
     if password == "qwerty123":
-        security = input("Är du säker på att du vill återställa highscoren?: ").lower()
-        if security == "ja":
-            if os.path.exists("highscore.txt"):
-                os.remove("highscore.txt")
+        additional_check = input("Är du säker på att du vill återställa highscoren?: ").lower()
+        if additional_check == "ja":
+            if os.path.exists('data\highscore.txt'):
+                os.remove('data\highscore.txt')
                 print("Highscore har nollställts!\nÅtergår till huvucmenyn.")
                 menu.main_menu()
             else:
                 print("Det finns förnärvarande inget highscore sparat. Kan inte återställa.\nÅtergår till huvudmenyn.")
                 menu.main_menu()
-        elif security == "nej":
+        elif additional_check == "nej":
             print("Återgår till huvudmenyn.")
             menu.main_menu()
     elif password == "huvudmeny":

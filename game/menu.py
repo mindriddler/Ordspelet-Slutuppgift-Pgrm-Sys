@@ -39,6 +39,7 @@ def main_menu():
 2. Spela som tänkare
 3. Se nuvarande highscore
 -----------------------------
+8. Återställ highscore
 9. Avsluta""")
 
     try:
