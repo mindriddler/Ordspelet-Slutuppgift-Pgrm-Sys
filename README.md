@@ -22,7 +22,6 @@ For how to install python 3.10, see instructions at the bottom
 - Can not be in tempus or plural form
 
 ## **How to play the game:** ##
-
 - Start the game by accepting the rules
 - Choose 1 or 2 depending on if you want to be the guesser or the thinker
 - Follow the instructions shown on the screen
