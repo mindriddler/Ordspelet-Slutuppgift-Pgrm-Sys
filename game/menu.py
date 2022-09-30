@@ -1,6 +1,4 @@
 import msvcrt as m
-import game.user_guess as ug
-import game.user_think as ut
 import game.functions as f
 
 def splash_screen():
@@ -32,8 +30,11 @@ Skriv 'nej' för att neka reglerna och avsluta spelet.""")
 
 
 def main_menu():   
+    end_of_game = False
     
-    print("""
+    while not end_of_game:
+        
+        print("""
 ----------MAIN MENU----------
 1. Spela som gissare    
 2. Spela som tänkare
@@ -41,31 +42,29 @@ def main_menu():
 -----------------------------
 8. Återställ highscore
 9. Avsluta""")
-
-    try:
-        choice = int(input("Välj ett alternativ: "))
-        if choice == 1:
-            ug.user_guess()
-        elif choice == 2:
-            ut.user_think()
-        elif choice == 3:
-            try:
-                f.print_highscore()
-            except ValueError:
-                print("Det finns inga highscores än.")
-            print("\nTryck på valfri tangent för att fortsätta.")
-            m.getch()
-            main_menu()
-        elif choice == 8:
-            f.reset_highscore()
-        elif choice == 9:
-            exit()
-        else:
-            print("Du måste ange siffran som stämmer överens med det val du vill göra.")
-            main_menu()
-    except ValueError:
-        print("Vänligen ange ett giltligt alternativ.")
-        main_menu()
+        
+        try:
+            choice = int(input("Välj ett alternativ: "))
+            if choice == 1:
+                f.game_func_1()
+            elif choice == 2:
+                f.game_func_2()
+            elif choice == 3:
+                try:
+                    f.print_highscore()
+                except ValueError:
+                    print("Det finns inga highscores än.")
+                print("\nTryck på valfri tangent för att fortsätta.")
+                m.getch()
+            elif choice == 8:
+                f.reset_highscore()
+            elif choice == 9:
+                print("Avslutar spelet.\nHa en bra dag!")
+                end_of_game = True
+            else:
+                print("Du måste ange siffran som stämmer överens med det val du vill göra.")
+        except ValueError:
+            print("Vänligen ange ett giltligt alternativ.")
 
 
 
