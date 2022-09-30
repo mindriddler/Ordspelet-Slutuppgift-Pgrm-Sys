@@ -5,6 +5,24 @@ import json
 from operator import itemgetter
 
 
+def return_to_main_menu():
+    go_back = input("Vill du återvända till huvudmenyn?: ").lower()
+    if go_back == "ja":
+        end_of_game = True
+        return end_of_game
+    elif go_back == "nej":
+        quit_game()
+
+def end_of_game_func(end_of_game):
+    end_of_game = True
+    return end_of_game
+    
+
+def quit_game():
+    print("Avslutar spelet.\nHa en bra dag!")
+    exit()
+
+
 def game_func_1():
     num_of_guesses = 0
     end_of_game = False
@@ -38,15 +56,15 @@ def game_func_1():
             choice = input("Vill du skriva in dig på toplistan?: ").lower()
             if choice == "ja":
                 name = input("Vänligen ange ditt fulla namn: ").title()
-                end_of_game = True
+                end_of_game_func(end_of_game)
                 highscore(name, num_of_guesses)
             elif choice == "nej":
                 play_again = input("Vill du återvända till huvudmenyn?: ").lower()
                 if play_again == "ja":
-                    end_of_game = True
+                    end_of_game_func(end_of_game)
                 elif play_again == "nej":
-                    print(f"Avslutar spelet.\nHa en bra dag!")
-                    end_of_game = True
+                    quit_game()
+                    
                 else:
                     print("Du måste ange 'ja' eller 'nej'.")
         elif guess in guessed_words:
@@ -64,21 +82,33 @@ def game_func_1():
 
 def game_func_2():
     
-    python_list, num_of_turns, end_of_game, user_word = player_word()
-    while not end_of_game:
-        python_list, word, user_word, player_check, num_of_turns, end_of_game = main_func(python_list, num_of_turns, end_of_game, user_word)
-        python_list, num_of_turns, end_of_game, user_word = checking(python_list, word, user_word, player_check, num_of_turns, end_of_game)
-            
-    print(f"Du klarade det på {num_of_turns} försök.")
-    print("Tack för att du spelade!")
-    exit()
-
-
-def player_word():    
-    
     end_of_game = False
-    python_list = create_word_list()
     num_of_turns = 0
+    user_word = player_word()
+    python_list = create_word_list()
+    
+    
+    while not end_of_game:
+        
+        try:
+            num_of_turns += 1
+            word = random.choice(python_list)
+            answer = main_func(python_list, user_word, word, num_of_turns)
+            
+            if answer == "fel":
+                python_list = checking(python_list, word, user_word)
+            elif answer == "quit":
+                quit_game()
+            elif answer == None:
+                end_of_game = True
+            else:
+                print("Du måste ange 'ja' eller 'nej'.")
+                continue
+        except TypeError:
+            end_of_game = True
+        
+        
+def player_word():    
     
     while True:
         user_word = input("Vad är ditt ord?: ").lower()
@@ -88,22 +118,23 @@ def player_word():
             print("Ordet får inte innehålla nummer eller andra symboler.")
         else:
             print("Du kan avsluta spelet genom att skriva 'quit'")
-            return python_list, num_of_turns, end_of_game, user_word
+            return user_word
         
         
-def main_func(python_list, num_of_turns, end_of_game, user_word): 
+def main_func(python_list, user_word, word, num_of_turns):
+    
+    end_of_game = False
     
     while not end_of_game:
-        num_of_turns += 1
-        if num_of_turns % 5 == 0:
-            choice = input("Vill du veta hur många potentionela ord python har kvar?: ").lower() # Utökning av programmet som PDF filen föreslagit
-            if choice == "ja":
-                print(python_list)
-                print(f"Python har {len(python_list)} kvar att gissa på.")
-            else:
-                pass
+        
         try:
-            word = random.choice(python_list)
+            if num_of_turns % 5 == 0:
+                choice = input("Vill du veta hur många potentionela ord python har kvar?: ").lower() # Utökning av programmet som PDF filen föreslagit
+                if choice == "ja":
+                    print(python_list)
+                    print(f"Python har {len(python_list)} kvar att gissa på.")
+                else:
+                    pass
         except IndexError:
             print("Python har inte fler ord kvar att gissa på.\nAvslutar spelet.")
             exit()
@@ -111,16 +142,15 @@ def main_func(python_list, num_of_turns, end_of_game, user_word):
         print(f"\nDitt ord: {user_word}")
         print(f"Pythons gissning: {word}")
 
-        player_check = input("Vänligen ange om gissningen är rätt eller fel: ").lower()
-        if player_check == "rätt":
+        answer = input("Vänligen ange om gissningen är rätt eller fel: ").lower()
+        if answer == "rätt":
             print("Python lyckades gissa rätt!")
-            end_of_game = True
-        elif player_check == "fel":
-            return python_list, word, user_word, player_check, num_of_turns, end_of_game
-            
+            end_of_game = return_to_main_menu()
+        else:
+            return answer  
 
 
-def checking(python_list, word, user_word, player_check, num_of_turns, end_of_game):     
+def checking(python_list, word, user_word):    
     
     while True:
         correct_spot = input("Hur många RÄTT bokstäver på RÄTT plats?: ")
@@ -134,16 +164,13 @@ def checking(python_list, word, user_word, player_check, num_of_turns, end_of_ga
         
         correct_letters = int(correct_spot) + int(correct_char)
         
-        if player_check == "quit":
-            print("Avslutar spelet.")
-            exit()
-        elif correct_letters == 0:
+        if correct_letters == 0:
             python_list = [word for word in python_list if not len(set(user_word).intersection(set(word))) == 5]
         elif correct_letters >= 1:
             python_list = [word for word in python_list if len(set(user_word).intersection(set(word))) >= correct_letters]
             if word in python_list:
                 python_list.remove(word)
-        return python_list, num_of_turns, end_of_game, user_word
+        return python_list
 
 
 def get_word():
@@ -186,16 +213,21 @@ def highscore(name, num_of_guesses):
 
 
 def print_highscore():
-    with open('data\highscore.txt', 'r') as f:
-        highscores = json.load(f)
-        limit = 10
-    print("\nNuvarande topp 10 bästa spelrundor!")
-    for item in islice(highscores, limit):
-        print(f"{item[0]}: {item[1]} gissningar")
-        
-    average_guesses = sum([item[1] for item in highscores]) / len(highscores)
-    print(f"\nMedelvärdet på antal gissningar är: {average_guesses}")
-
+    
+    try:
+        with open('data\highscore.txt', 'r') as f:
+            highscores = json.load(f)
+            limit = 10
+        print("\nNuvarande topp 10 bästa spelrundor!")
+        for item in islice(highscores, limit):
+            print(f"{item[0]}: {item[1]} gissningar")
+    except FileNotFoundError:
+        print("Det finns ingen sparad poäng än. Spela spelet för att spara din poäng.")  
+    try:
+        average_guesses = sum([item[1] for item in highscores]) / len(highscores)
+        print(f"\nMedelvärdet på antal gissningar är: {average_guesses}")
+    except UnboundLocalError:
+        pass
 
 def reset_highscore():
     reset_done = False
