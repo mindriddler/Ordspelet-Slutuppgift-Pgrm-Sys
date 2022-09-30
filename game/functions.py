@@ -6,12 +6,29 @@ from operator import itemgetter
 
 
 def return_to_main_menu():
-    go_back = input("Vill du återvända till huvudmenyn?: ").lower()
-    if go_back == "ja":
-        end_of_game = True
-        return end_of_game
-    elif go_back == "nej":
-        quit_game()
+    while True:
+        go_back = input("Vill du återvända till huvudmenyn?: ").lower()
+        if go_back == "ja":
+            end_of_game = True
+            return end_of_game
+        elif go_back == "nej":
+            quit_game()
+        else:
+            print("Du måste ange 'ja' eller 'nej'.")
+            continue
+
+
+def play_again_func():
+    
+    while not end_of_game:
+        play_again = input("Vill du spela igen?: ").lower()
+        if play_again == "ja":
+            end_of_game = return_to_main_menu()
+        elif play_again == "nej":
+            quit_game()
+        else:
+            print("Du måste ange 'ja' eller 'nej'.")
+            continue
 
 def end_of_game_func(end_of_game):
     end_of_game = True
@@ -21,6 +38,13 @@ def end_of_game_func(end_of_game):
 def quit_game():
     print("Avslutar spelet.\nHa en bra dag!")
     exit()
+
+
+def add_to_highscore():
+    name = input("Vänligen ange ditt fulla namn: ").title()
+    score = input("Vänligen ange ditt resultat: ")
+    highscore = {"name": name, "score": score}
+    return highscore
 
 
 def game_func_1():
@@ -53,20 +77,7 @@ def game_func_1():
                 print(f"Du hade totalt {num_of_guesses} gissning.\n")
             else:
                 print(f"Du hade totalt {num_of_guesses} gissningar.\n")
-            choice = input("Vill du skriva in dig på toplistan?: ").lower()
-            if choice == "ja":
-                name = input("Vänligen ange ditt fulla namn: ").title()
-                end_of_game_func(end_of_game)
-                highscore(name, num_of_guesses)
-            elif choice == "nej":
-                play_again = input("Vill du återvända till huvudmenyn?: ").lower()
-                if play_again == "ja":
-                    end_of_game_func(end_of_game)
-                elif play_again == "nej":
-                    quit_game()
-                    
-                else:
-                    print("Du måste ange 'ja' eller 'nej'.")
+            end_of_game = highscore(num_of_guesses)
         elif guess in guessed_words:
             print("Du har redan gissat på det ordet. Prova med ett annat ord.")
             num_of_guesses -= 1 # To not count the guess if it's not valid
@@ -80,7 +91,7 @@ def game_func_1():
             print(f"\n{correct_position} bokstäver på RÄTT plats!\n{correct_letter} korrekta bokstäver men på FEL plats.")
 
 
-def game_func_2():
+def game_func_2(): # Klar?
     
     end_of_game = False
     num_of_turns = 0
@@ -102,7 +113,7 @@ def game_func_2():
             elif answer == None:
                 end_of_game = True
             else:
-                print("Du måste ange 'ja' eller 'nej'.")
+                print("Du måste ange 'rätt' eller 'fel'.")
                 continue
         except TypeError:
             end_of_game = True
@@ -195,22 +206,33 @@ def create_word_list():
         exit()
 
 
-def highscore(name, num_of_guesses):
-    try:
-        with open('data\highscore.txt', 'r') as f:
-            highscores = json.load(f)
-    except FileNotFoundError:
-        # If the file doesn't exist, use default values
-        highscores = []
+def highscore(num_of_guesses):
+    choice = input("Vill du spara ditt resultat i highscore listan?: ").lower()
+    if choice == "ja":
+        name = input("Vänligen ange ditt fulla namn: ").title()
+        try:
+            with open('data\highscore.txt', 'r') as f:
+                highscores = json.load(f)
+        except FileNotFoundError:
+            # If the file doesn't exist, use default values
+            highscores = []
     
-    highscores.append((name, num_of_guesses))
-    highscores = sorted(highscores, key = itemgetter(1), reverse = False)[:10]
-    with open('data\highscore.txt', 'w') as f:
-        json.dump(highscores, f)
+        highscores.append((name, num_of_guesses))
+        highscores = sorted(highscores, key = itemgetter(1), reverse = False)[:10]
+        with open('data\highscore.txt', 'w') as f:
+            json.dump(highscores, f)
 
-    highscores = []
-    print("Din poäng har sparats!")
-
+        highscores = []
+        print("Din poäng har sparats!")
+        end_of_game = return_to_main_menu()
+        return end_of_game
+    elif choice == "nej":
+        print("Din poäng har inte sparats.")
+        end_of_game = return_to_main_menu()
+        return end_of_game
+    else:
+        print("Du måste ange 'ja' eller 'nej'.")
+        highscore(num_of_guesses)
 
 def print_highscore():
     
