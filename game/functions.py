@@ -39,8 +39,7 @@ def game_func_1():
 
 
         if guess == "quit":
-            print("Avslutar spelet.\nHa en bra dag!")
-            exit()
+            quit_game()
         elif len(guess) != 5:    
             print("Vänligen ange ett giltligt ord.")
             num_of_guesses -= 1 # To not count the guess if it's not valid
@@ -146,6 +145,8 @@ def checking(python_list, word, user_word):
         if correct_spot.isdigit() == False or correct_char.isdigit() == False:
             print("Du måste skriva in siffror. Försök igen.")
             continue
+        elif correct_char == "quit" or correct_spot == "quit":
+            quit_game()
         else:
             pass
         
@@ -183,32 +184,36 @@ def create_word_list():
 
 
 def highscore(num_of_guesses):
-    choice = input("Vill du spara ditt resultat i highscore listan?: ").lower()
-    if choice == "ja":
-        name = input("Vänligen ange ditt fulla namn: ").title()
-        try:
-            with open('data\highscore.txt', 'r') as f:
-                highscores = json.load(f)
-        except FileNotFoundError:
-            # If the file doesn't exist, use default values
-            highscores = []
     
-        highscores.append((name, num_of_guesses))
-        highscores = sorted(highscores, key = itemgetter(1), reverse = False)[:10]
-        with open('data\highscore.txt', 'w') as f:
-            json.dump(highscores, f)
+    while True:
+        choice = input("Vill du spara ditt resultat i highscore listan?: ").lower()
+        if choice == "ja":
+            name = input("Vänligen ange ditt fulla namn: ").title()
+            try:
+                with open('data\highscore.txt', 'r') as f:
+                    highscores = json.load(f)
+            except FileNotFoundError:
+                # If the file doesn't exist, use default values
+                highscores = []
+        
+            highscores.append((name, num_of_guesses))
+            highscores = sorted(highscores, key = itemgetter(1), reverse = False)[:10]
+            with open('data\highscore.txt', 'w') as f:
+                json.dump(highscores, f)
 
-        highscores = []
-        print("Din poäng har sparats!")
-        end_of_game = return_to_main_menu()
-        return end_of_game
-    elif choice == "nej":
-        print("Din poäng har inte sparats.")
-        end_of_game = return_to_main_menu()
-        return end_of_game
-    else:
-        print("Du måste ange 'ja' eller 'nej'.")
-        highscore(num_of_guesses)
+            highscores = []
+            print("Din poäng har sparats!")
+            end_of_game = return_to_main_menu()
+            return end_of_game
+        elif choice == "nej":
+            print("Din poäng har inte sparats.")
+            end_of_game = return_to_main_menu()
+            return end_of_game
+        elif choice == "quit":
+            quit_game()
+        else:
+            print("Du måste ange 'ja' eller 'nej'.")
+            continue
 
 
 def print_highscore():
@@ -247,8 +252,16 @@ def reset_highscore():
             elif additional_check == "nej":
                 print("Återgår till huvudmenyn.")
                 reset_done = True
+            elif additional_check == "quit":
+                quit_game()
+            else:
+                print("Du måste ange 'ja' eller 'nej'.")
+                continue
         elif password == "huvudmeny":
             print("Återgår till huvudmenyn.")
             reset_done = True
+        elif password == "quit":
+            quit_game()
         else:
             print("Fel lösenord. Försök igen eller återgå till huvudmenyn genom att skriva 'huvudmeny'.")
+            continue
