@@ -22,6 +22,7 @@ For how to install python 3.10, see instructions at the bottom
 - Can not be in tempus or plural form
 
 ## **How to play the game:** ##
+
 - Start the game by accepting the rules
 - Choose 1 or 2 depending on if you want to be the guesser or the thinker
 - Follow the instructions shown on the screen
@@ -29,6 +30,7 @@ For how to install python 3.10, see instructions at the bottom
 - Password to reset highscore is "qwerty123"
 
 ## **How to run** ##
+
 - Navigate to the folder where you cloned the repository to in the terminal
 - Start the game
 ```
