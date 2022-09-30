@@ -30,21 +30,10 @@ def play_again_func():
             print("Du måste ange 'ja' eller 'nej'.")
             continue
 
-def end_of_game_func(end_of_game):
-    end_of_game = True
-    return end_of_game
-    
 
 def quit_game():
     print("Avslutar spelet.\nHa en bra dag!")
     exit()
-
-
-def add_to_highscore():
-    name = input("Vänligen ange ditt fulla namn: ").title()
-    score = input("Vänligen ange ditt resultat: ")
-    highscore = {"name": name, "score": score}
-    return highscore
 
 
 def game_func_1():
@@ -117,8 +106,8 @@ def game_func_2(): # Klar?
                 continue
         except TypeError:
             end_of_game = True
-        
-        
+
+
 def player_word():    
     
     while True:
@@ -130,8 +119,8 @@ def player_word():
         else:
             print("Du kan avsluta spelet genom att skriva 'quit'")
             return user_word
-        
-        
+
+
 def main_func(python_list, user_word, word, num_of_turns):
     
     end_of_game = False
@@ -234,6 +223,7 @@ def highscore(num_of_guesses):
         print("Du måste ange 'ja' eller 'nej'.")
         highscore(num_of_guesses)
 
+
 def print_highscore():
     
     try:
@@ -250,6 +240,7 @@ def print_highscore():
         print(f"\nMedelvärdet på antal gissningar är: {average_guesses}")
     except UnboundLocalError:
         pass
+
 
 def reset_highscore():
     reset_done = False
