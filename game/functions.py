@@ -18,19 +18,6 @@ def return_to_main_menu():
             continue
 
 
-def play_again_func():
-    
-    while not end_of_game:
-        play_again = input("Vill du spela igen?: ").lower()
-        if play_again == "ja":
-            end_of_game = return_to_main_menu()
-        elif play_again == "nej":
-            quit_game()
-        else:
-            print("Du måste ange 'ja' eller 'nej'.")
-            continue
-
-
 def quit_game():
     print("Avslutar spelet.\nHa en bra dag!")
     exit()
@@ -80,7 +67,7 @@ def game_func_1():
             print(f"\n{correct_position} bokstäver på RÄTT plats!\n{correct_letter} korrekta bokstäver men på FEL plats.")
 
 
-def game_func_2(): # Klar?
+def game_func_2(): 
     
     end_of_game = False
     num_of_turns = 0
