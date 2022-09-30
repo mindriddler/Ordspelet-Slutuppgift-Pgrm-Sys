@@ -64,20 +64,20 @@ def game_func_1():
 
 def game_func_2():
     
-        python_list, num_of_turns, end_of_game, user_word = player_word()
-        while not end_of_game:
-            python_list, word, user_word, player_check, num_of_turns, end_of_game = main_func(python_list, num_of_turns, end_of_game, user_word)
-            python_list, num_of_turns, end_of_game, user_word = checking(python_list, word, user_word, player_check, num_of_turns, end_of_game)
+    python_list, num_of_turns, end_of_game, user_word = player_word()
+    while not end_of_game:
+        python_list, word, user_word, player_check, num_of_turns, end_of_game = main_func(python_list, num_of_turns, end_of_game, user_word)
+        python_list, num_of_turns, end_of_game, user_word = checking(python_list, word, user_word, player_check, num_of_turns, end_of_game)
             
-        print(f"Du klarade det på {num_of_turns} försök.")
-        print("Tack för att du spelade!")
-        exit()
+    print(f"Du klarade det på {num_of_turns} försök.")
+    print("Tack för att du spelade!")
+    exit()
 
 
 def player_word():    
     
     end_of_game = False
-    python_list = f.create_word_list()
+    python_list = create_word_list()
     num_of_turns = 0
     
     while True:
