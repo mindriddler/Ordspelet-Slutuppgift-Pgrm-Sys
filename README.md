@@ -29,7 +29,6 @@ For how to install python 3.10, see instructions at the bottom
 - Password to reset highscore is "qwerty123"
 
 ## **How to run** ##
-
 - Navigate to the folder where you cloned the repository to in the terminal
 - Start the game
 ```
@@ -40,7 +39,6 @@ python main.py
 
 
 ## **Windows** ##
-
 You can either download python by clicking **_[here](https://www.python.org/downloads/)_**
 
 you can use also use winget by typing the line below into powershell
@@ -50,7 +48,6 @@ winget install python --accept-package-agreements
 <sup>read more about winget [here](https://learn.microsoft.com/en-us/windows/package-manager/winget/)</sup>
 
 ## **Linux** ##
-
 First check if python3.10 is already installed
 ```
 python3 -v
