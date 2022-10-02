@@ -49,6 +49,8 @@ def main_menu():
                 f.game_func_1()
             elif choice == 2:
                 f.game_func_2()
+            elif choice == 7:
+                f.game_func_3()
             elif choice == 3:
                 try:
                     f.print_highscore()
