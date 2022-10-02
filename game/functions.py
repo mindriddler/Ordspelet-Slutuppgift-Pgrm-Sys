@@ -29,8 +29,7 @@ def game_func_1():
     word = get_word()
     guessed_words = []
         
-    print("Du kan avsluta spelet genom att skriva 'quit'")
-        
+    print("Du kan avsluta spelet genom att skriva 'jag ger upp'.")   
     while not end_of_game:
         correct_position = 0
         correct_letter = 0
@@ -38,7 +37,8 @@ def game_func_1():
         num_of_guesses += 1
 
 
-        if guess == "quit":
+        if guess == "jag ger upp":
+            print(f"Ordet var {word}")
             quit_game()
         elif len(guess) != 5:    
             print("Vänligen ange ett giltligt ord.")
@@ -46,9 +46,6 @@ def game_func_1():
         elif guess.isalpha() == False:
             print("Vänligen ange ett giltligt ord.")
             num_of_guesses -= 1 # To not count the guess if it's not valid
-        elif guess == "Jag ger upp":
-            print(f"Ordet var {word}")
-            quit_game()
         elif guess == word.lower():
             print("Du gissade rätt!")
             if num_of_guesses == 1:
