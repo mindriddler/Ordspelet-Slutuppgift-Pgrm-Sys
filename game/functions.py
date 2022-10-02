@@ -1,3 +1,4 @@
+from email.encoders import encode_noop
 import os
 from itertools import islice
 import random
@@ -30,6 +31,7 @@ def game_func_1():
     guessed_words = []
         
     print("Du kan avsluta spelet genom att skriva 'jag ger upp'.")   
+    print("Du kan spara ditt spel genom att skriva 'spara spelet'.")
     
     while not end_of_game:
         correct_position = 0
@@ -37,9 +39,72 @@ def game_func_1():
         guess = input("\nGissa på ett ord: ").lower()
         num_of_guesses += 1
 
-
-        if num_of_guesses % 5 == 0:
+        if guess == "spara spelet":
+            num_of_guesses -= 1 # The guess is not counted if the user saves the game
+            save_game(word, guessed_words, num_of_guesses)
+        elif num_of_guesses % 5 == 0:
             print("Du kan avsluta spelet genom att skriva 'jag ger upp'.") # To make sure the user knows how to quit the game. Good to have if the user forgets.
+            print("Du kan spara ditt spel genom att skriva 'spara spelet'.")
+        elif guess == "jag ger upp":
+            print(f"Ordet var {word}")
+            quit_game()
+        elif len(guess) != 5:    
+            print("Vänligen ange ett giltligt ord.")
+            num_of_guesses -= 1 # To not count the guess if it's not valid
+        elif guess.isalpha() == False:
+            print("Vänligen ange ett giltligt ord.")
+            num_of_guesses -= 1 # To not count the guess if it's not valid
+        elif guess == word.lower():
+            print("Du gissade rätt!")
+            if num_of_guesses == 1:
+                print(f"Du hade totalt {num_of_guesses} gissning.\n")
+            else:
+                print(f"Du hade totalt {num_of_guesses} gissningar.\n")
+            end_of_game = highscore(num_of_guesses)
+        elif guess in guessed_words:
+            print("Du har redan gissat på det ordet. Prova med ett annat ord.")
+            num_of_guesses -= 1 # To not count the guess if it's not valid
+        else:
+            guessed_words.append(guess)
+            for i, l in enumerate(word.lower()):
+                if l == guess[i]:
+                    correct_position += 1
+                elif l in guess:
+                    correct_letter += 1
+            print(f"\n{correct_position} bokstäver på RÄTT plats!\n{correct_letter} korrekta bokstäver men på FEL plats.")
+
+
+
+def game_func_3(): # Loading saved game
+    
+    no_game_saved = False
+    while not no_game_saved:
+        load = load_game()
+        if load == FileNotFoundError:
+            no_game_saved = True
+            return no_game_saved 
+    
+    
+    num_of_guesses = load[2]
+    end_of_game = False
+    word = load[0]
+    guessed_words = load[1]
+        
+    print("Du kan avsluta spelet genom att skriva 'jag ger upp'.")   
+    print("Du kan spara ditt spel genom att skriva 'spara spelet'.")
+    
+    while not end_of_game:
+        correct_position = 0
+        correct_letter = 0
+        guess = input("\nGissa på ett ord: ").lower()
+        num_of_guesses += 1
+
+        if guess == "spara spelet":
+            num_of_guesses -= 1 # The guess is not counted if the user saves the game
+            save_game(word, guessed_words, num_of_guesses)
+        elif num_of_guesses % 5 == 0:
+            print("Du kan avsluta spelet genom att skriva 'jag ger upp'.") # To make sure the user knows how to quit the game. Good to have if the user forgets.
+            print("Du kan spara ditt spel genom att skriva 'spara spelet'.")
         elif guess == "jag ger upp":
             print(f"Ordet var {word}")
             quit_game()
@@ -268,3 +333,47 @@ def reset_highscore():
         else:
             print("Fel lösenord. Försök igen eller återgå till huvudmenyn genom att skriva 'huvudmeny'.")
             continue
+
+
+
+def save_game(word, guessed_words, num_of_guesses):
+    
+    if os.path.exists('data\save_game.txt'): # If the file exists, delete it before saving the new game. Right now the save feature only saves one game at a time.
+        os.remove('data\save_game.txt') 
+    try:
+        with open('data\save_game.txt', 'r', encoding="utf-8") as f:
+            save_game = json.load(f)
+    except FileNotFoundError:
+        # If the file doesn't exist, use default values
+        save_game = []
+    
+    save_game.append((word, guessed_words, num_of_guesses))
+    with open('data\save_game.txt', 'w', encoding="utf-8") as f:
+        json.dump(save_game, f)
+
+    print("Ditt spel har sparats!")
+    
+    while True:
+        choice = input("Vill du fortsätta spela eller vill du avsluta spelet?: ").lower()
+        if choice == "avsluta":
+            quit_game()
+        elif choice == "fortsätta":
+            return False
+        else:
+            print("Du måste skriva 'avsluta' eller 'fortsätta'.")
+            continue
+        
+        
+def load_game():
+    
+    try:
+        with open('data\save_game.txt', 'r', encoding="utf-8") as f:
+            save_game = json.load(f)
+            word = save_game[0][0]
+            guessed_words = save_game[0][1]
+            num_of_guesses = save_game[0][2]
+            return word, guessed_words, num_of_guesses
+    except FileNotFoundError:
+        print("Det finns inget sparad spel att ladda.")
+        return FileNotFoundError
+    
