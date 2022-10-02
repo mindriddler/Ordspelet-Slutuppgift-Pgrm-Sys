@@ -30,6 +30,7 @@ def game_func_1():
     guessed_words = []
         
     print("Du kan avsluta spelet genom att skriva 'jag ger upp'.")   
+    
     while not end_of_game:
         correct_position = 0
         correct_letter = 0
@@ -37,7 +38,9 @@ def game_func_1():
         num_of_guesses += 1
 
 
-        if guess == "jag ger upp":
+        if num_of_guesses % 5 == 0:
+            print("Du kan avsluta spelet genom att skriva 'jag ger upp'.") # To make sure the user knows how to quit the game. Good to have if the user forgets.
+        elif guess == "jag ger upp":
             print(f"Ordet var {word}")
             quit_game()
         elif len(guess) != 5:    
