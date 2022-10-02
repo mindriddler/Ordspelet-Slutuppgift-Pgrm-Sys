@@ -40,9 +40,11 @@ def game_func_1():
         num_of_guesses += 1
 
         if guess == "spara spelet":
+            num_of_guesses -= 1 # The guess is not counted if the user saves the game
             save_game(word, guessed_words, num_of_guesses)
         elif num_of_guesses % 5 == 0:
             print("Du kan avsluta spelet genom att skriva 'jag ger upp'.") # To make sure the user knows how to quit the game. Good to have if the user forgets.
+            print("Du kan spara ditt spel genom att skriva 'spara spelet'.")
         elif guess == "jag ger upp":
             print(f"Ordet var {word}")
             quit_game()
@@ -73,7 +75,7 @@ def game_func_1():
 
 
 
-def game_func_3():
+def game_func_3(): # Loading saved game
     
     no_game_saved = False
     while not no_game_saved:
@@ -98,9 +100,11 @@ def game_func_3():
         num_of_guesses += 1
 
         if guess == "spara spelet":
+            num_of_guesses -= 1 # The guess is not counted if the user saves the game
             save_game(word, guessed_words, num_of_guesses)
         elif num_of_guesses % 5 == 0:
             print("Du kan avsluta spelet genom att skriva 'jag ger upp'.") # To make sure the user knows how to quit the game. Good to have if the user forgets.
+            print("Du kan spara ditt spel genom att skriva 'spara spelet'.")
         elif guess == "jag ger upp":
             print(f"Ordet var {word}")
             quit_game()
@@ -334,18 +338,18 @@ def reset_highscore():
 
 def save_game(word, guessed_words, num_of_guesses):
     
-    if os.path.exists('data\old_game.txt'):
-        os.remove('data\old_game.txt')
+    if os.path.exists('data\save_game.txt'): # If the file exists, delete it before saving the new game. Right now the save feature only saves one game at a time.
+        os.remove('data\save_game.txt') 
     try:
-        with open('data\old_game.txt', 'r', encoding="utf-8") as f:
-            old_game = json.load(f)
+        with open('data\save_game.txt', 'r', encoding="utf-8") as f:
+            save_game = json.load(f)
     except FileNotFoundError:
         # If the file doesn't exist, use default values
-        old_game = []
+        save_game = []
     
-    old_game.append((word, guessed_words, num_of_guesses))
-    with open('data\old_game.txt', 'w', encoding="utf-8") as f:
-        json.dump(old_game, f)
+    save_game.append((word, guessed_words, num_of_guesses))
+    with open('data\save_game.txt', 'w', encoding="utf-8") as f:
+        json.dump(save_game, f)
 
     print("Ditt spel har sparats!")
     
@@ -354,7 +358,7 @@ def save_game(word, guessed_words, num_of_guesses):
         if choice == "avsluta":
             quit_game()
         elif choice == "fortsätta":
-            pass
+            return False
         else:
             print("Du måste skriva 'avsluta' eller 'fortsätta'.")
             continue
@@ -363,12 +367,13 @@ def save_game(word, guessed_words, num_of_guesses):
 def load_game():
     
     try:
-        with open('data\old_game.txt', 'r', encoding="utf-8") as f:
-            old_game = json.load(f)
-            word = old_game[0][0]
-            guessed_words = old_game[0][1]
-            num_of_guesses = old_game[0][2]
+        with open('data\save_game.txt', 'r', encoding="utf-8") as f:
+            save_game = json.load(f)
+            word = save_game[0][0]
+            guessed_words = save_game[0][1]
+            num_of_guesses = save_game[0][2]
             return word, guessed_words, num_of_guesses
     except FileNotFoundError:
         print("Det finns inget sparad spel att ladda.")
-        return FileNotFoundError 
+        return FileNotFoundError
+    

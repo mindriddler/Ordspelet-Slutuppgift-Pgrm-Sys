@@ -36,22 +36,25 @@ def main_menu():
         
         print("""
 ----------MAIN MENU----------
-1. Spela som gissare    
-2. Spela som tänkare
-3. Se nuvarande highscore
+| 1. Spela som gissare      |
+| 2. Spela som tänkare      |
+| 3. Ladda spel             |
 -----------------------------
-8. Återställ highscore
-9. Avsluta""")
-        
+| 4. Se nuvarande highscore |
+-----------------------------
+| 8. Återställ highscore    |
+| 9. Avsluta                |
+-----------------------------
+""")  
         try:
             choice = int(input("Välj ett alternativ: "))
             if choice == 1:
                 f.game_func_1()
             elif choice == 2:
                 f.game_func_2()
-            elif choice == 7:
-                f.game_func_3()
             elif choice == 3:
+                f.game_func_3()
+            elif choice == 4:
                 try:
                     f.print_highscore()
                 except ValueError:
