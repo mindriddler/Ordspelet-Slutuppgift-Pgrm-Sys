@@ -46,6 +46,9 @@ def game_func_1():
         elif guess.isalpha() == False:
             print("Vänligen ange ett giltligt ord.")
             num_of_guesses -= 1 # To not count the guess if it's not valid
+        elif guess == "Jag ger upp":
+            print(f"Ordet var {word}")
+            quit_game()
         elif guess == word.lower():
             print("Du gissade rätt!")
             if num_of_guesses == 1:
