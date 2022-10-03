@@ -2,7 +2,6 @@ import msvcrt as m
 import game.functions as f
 import game.game_mode_1 as gm1
 import game.game_mode_2 as gm2
-# import game.UNUSED as gm1l
 import game._highscore as h
 import game.save_load as sl
 

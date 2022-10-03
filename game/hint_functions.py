@@ -1,5 +1,4 @@
 import json
-import random
 import msvcrt as m
 import game.functions as f
 
