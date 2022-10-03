@@ -1,6 +1,6 @@
 import json
 from operator import itemgetter
-import functions as f
+import game.functions as f
 from itertools import islice
 import os
 

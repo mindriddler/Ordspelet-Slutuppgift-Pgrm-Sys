@@ -1,6 +1,6 @@
-import functions as f
-import save_load as sl
-import _highscore as h
+import game.functions as f
+import game.save_load as sl
+import game._highscore as h
 
 def game_func_1(): # Gamemode 1, player vs computer
     num_of_guesses = 0
@@ -16,6 +16,7 @@ def game_func_1(): # Gamemode 1, player vs computer
         correct_letter = 0
         guess = input("\nGissa på ett ord: ").lower()
         num_of_guesses += 1
+        to_many_l = 0
         
         for char in guess:
             count = guess.count(char)

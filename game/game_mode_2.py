@@ -1,7 +1,7 @@
 import random
-import functions as f
+import game.functions as f
 import msvcrt as m
-import save_load as sl
+import game.hint_functions as h_f
 
 def game_func_2(): # Gamemode 2, computer vs player
     
@@ -97,5 +97,5 @@ def checking(python_list, word, user_word):
             python_list = [word for word in python_list if len(set(user_word).intersection(set(word))) >= correct_letters]
             if word in python_list:
                 python_list.remove(word)
-        sl.save_hint(word, user_word, correct_spot, correct_char)
+        h_f.save_hint(word, user_word, correct_spot, correct_char)
         return python_list

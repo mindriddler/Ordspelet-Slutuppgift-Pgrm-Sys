@@ -1,7 +1,7 @@
 import json
 import random
 import msvcrt as m
-from functions import create_word_list, add_word_to_words
+import game.functions as f
 
 
 def save_hint(word, user_word, correct_spot, correct_char):        
@@ -17,21 +17,9 @@ def save_hint(word, user_word, correct_spot, correct_char):
     with open('data\hints.txt', 'w', encoding="utf-8") as f:
         json.dump(hint_list, f)
         
-
-def get_word():
-    try:
-        file = open("data\words.txt", "r", encoding="utf-8")
-        words = file.read()
-        listOfWords = words.split("\n")
-        randWord = random.choice(listOfWords)
-        return randWord
-    except FileNotFoundError:
-        print("Filen 'words.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
-        exit()
-        
         
 def get_hints():
-    word_list = create_word_list()
+    word_list = f.create_word_list()
     to_many_l = 0
     hint_no = 0
     word = input("\nVad var ditt ord? ").lower()
@@ -39,8 +27,8 @@ def get_hints():
     
         
     try:
-        with open('data\hints.txt', 'r', encoding="utf-8") as f:
-            hints = json.load(f)
+        with open('data\hints.txt', 'r', encoding="utf-8") as file:
+            hints = json.load(file)
             len_hints = len(hints)
                     
             for r in range(len_hints):
@@ -79,7 +67,7 @@ def get_hints():
                 else:
                     check_hints(user_word, python_guess, correct_spot, correct_char, hint_no)
             if word not in word_list:
-                end_of_game = add_word_to_words(word)
+                end_of_game = f.add_word_to_words(word)
                 return end_of_game
     except FileNotFoundError:
         print("Filen 'hints.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")             

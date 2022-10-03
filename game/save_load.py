@@ -1,6 +1,6 @@
 import json
 import os
-import functions as f
+import game.functions as f
 
 
 def save_game(word, guessed_words, num_of_guesses):

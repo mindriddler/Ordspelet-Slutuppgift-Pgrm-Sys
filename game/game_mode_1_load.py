@@ -1,6 +1,6 @@
-import functions as f
-import save_load as sl
-import _highscore as h
+import game.functions as f
+import game.save_load as sl
+import game._highscore as h
 
 def game_func_3(): # Load feature for gamemode 1
     

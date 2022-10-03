@@ -1,6 +1,17 @@
 import os
+import random
 
 
+def get_word():
+    try:
+        file = open("data\words.txt", "r", encoding="utf-8")
+        words = file.read()
+        listOfWords = words.split("\n")
+        randWord = random.choice(listOfWords)
+        return randWord
+    except FileNotFoundError:
+        print("Filen 'words.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
+        exit()
 
 def return_to_main_menu():
     while True:
