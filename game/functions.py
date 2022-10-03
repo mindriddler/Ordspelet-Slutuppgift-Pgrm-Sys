@@ -169,8 +169,7 @@ def game_func_2(): # Gamemode 2, computer vs player
             answer = main_func_gamemode_2(python_list, user_word, word, num_of_turns)
             
             if answer == "fel":
-                python_list = checking(answer, python_list, word, user_word)
-                
+                python_list = checking(python_list, word, user_word)
             elif answer == "quit":
                 quit_game()
             elif answer == None:
@@ -247,7 +246,7 @@ def main_func_gamemode_2(python_list, user_word, word, num_of_turns):
             continue
 
 
-def checking(answer, python_list, word, user_word):    
+def checking(python_list, word, user_word):    
     
     
     while True:
@@ -271,11 +270,11 @@ def checking(answer, python_list, word, user_word):
             python_list = [word for word in python_list if len(set(user_word).intersection(set(word))) >= correct_letters]
             if word in python_list:
                 python_list.remove(word)
-        save_hint(answer, word, user_word, correct_spot, correct_char)
+        save_hint(word, user_word, correct_spot, correct_char)
         return python_list
 
 
-def save_hint(answer, word, user_word, correct_spot, correct_char):        
+def save_hint(word, user_word, correct_spot, correct_char):        
     
     try:
         with open('data\hints.txt', 'r', encoding="utf-8") as f:
@@ -284,7 +283,7 @@ def save_hint(answer, word, user_word, correct_spot, correct_char):
     # If the file doesn't exist, use default values
         hint_list = []
         
-    hint_list.append((answer, word, user_word, correct_spot, correct_char))
+    hint_list.append((word, user_word, correct_spot, correct_char))
     with open('data\hints.txt', 'w', encoding="utf-8") as f:
         json.dump(hint_list, f)
         
@@ -443,28 +442,15 @@ def add_word_to_words(word):
 Därför har jag kommit fram till att ditt ord saknas i ordlistan
 och kommer därför lägga till det för framtida spel.
 Tack för ditt bidrag!\n""")
-
     try:
-        with open('data\words.txt', 'r', encoding="utf-8") as f:
-            words = json.load(f)
+        with open('data\words.txt', 'a+', encoding="utf-8") as f:
+            f.write("\n" + word)
     except FileNotFoundError:
-        print("Filen 'words.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
-        
-    words.append(word)
-    with open('data\words.txt', 'w', encoding="utf-8") as f:
-        json.dump(words, f)
-        
-        print("Ordet har lagts till i ordlistan!")
-        print("Tryck på valfri tangent för att återgå till huvudmenyn.")
-        m.getch()
-        end_of_game = True
-        return end_of_game
-
-
+        print("Kunde inte hitta ordlistan. Kan inte lägga till ordet.")
+        return FileNotFoundError
+    
 def get_hints():
     word_list = create_word_list()
-    correct_position = 0
-    correct_letter = 0
     to_many_l = 0
     hint_no = 0
     word = input("\nVad var ditt ord? ").lower()
@@ -480,10 +466,10 @@ def get_hints():
                         
                 hint = hints[r]
                 hint_no = r + 1
-                python_guess = hint[1]
-                user_word = hint[2]
-                correct_spot = hint[3]
-                correct_char = hint[4]
+                python_guess = hint[0]
+                user_word = hint[1]
+                correct_spot = int(hint[2])
+                correct_char = int(hint[3])
 
                 for char in word:
                     count = word.count(char)
@@ -510,13 +496,16 @@ def get_hints():
                     m.getch()
                     break
                 else:
-                    check_hints(user_word, python_guess, correct_spot, correct_char, hint_no, word, word_list)
+                    check_hints(user_word, python_guess, correct_spot, correct_char, hint_no)
+            if word not in word_list:
+                end_of_game = add_word_to_words(word)
+                return end_of_game
     except FileNotFoundError:
         print("Filen 'hints.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")             
 
 
 
-def check_hints(user_word, python_guess, correct_spot, correct_char, hint_no, word, word_list):
+def check_hints(user_word, python_guess, correct_spot, correct_char, hint_no):
     if user_word == python_guess:
         print("Python gissade på rätt ord men du angav att det var fel ord!\nVänligen ha bättre översikt nästa gång.")
         print("Tryck på valfri tangent för att återvända till huvudmenyn")
@@ -534,7 +523,7 @@ def check_hints(user_word, python_guess, correct_spot, correct_char, hint_no, wo
             correct_letter += 1    
         
     if correct_position != correct_spot or correct_letter != correct_char:
-        print(f"\nPython har gissat på ordet: '{python_guess}'")
+        print(f"\nPython har gissat på ordet: '{python_guess}'.\nDitt ord var '{user_word}'.")
         print(f"På gissning {hint_no} har du har svarat att det var {correct_spot} rätt bokstäver på rätt plats och {correct_char} rätt bokstäver på fel plats.")
         print(f"När det egentligen är {correct_position} rätt bokstäver på rätt plats och {correct_letter} rätt bokstäver på fel plats.")
         print("Du har alltså svarat fel på ditt svar.")
@@ -544,10 +533,17 @@ def check_hints(user_word, python_guess, correct_spot, correct_char, hint_no, wo
         m.getch()
     else:
         if correct_position == correct_spot and correct_letter == correct_char:
-            print(f"Du har svarat att det var {correct_position} rätt bokstäver på rätt plats och {correct_letter} rätt bokstäver på fel plats.")
+            print(f"\nPython har gissat på ordet: '{python_guess}'.\nDitt ord var '{user_word}'.")
+            print(f"På gissning {hint_no} har du har svarat att det var {correct_position} rätt bokstäver på rätt plats och {correct_letter} rätt bokstäver på fel plats.")
             print("Du har alltså svarat rätt på ditt svar. Bra jobbat!\n")
             correct_position = 0
             correct_letter = 0
-            if word not in word_list:
-                end_of_game = add_word_to_words(word, word_list)
-                return end_of_game
+        #     if word not in word_list:
+        #         end_of_game = add_word_to_words(word, word_list)
+        #         return end_of_game
+        #     else:
+        #         end_of_game = True
+        #         return end_of_game
+        # else:
+        #     end_of_game = True
+        #     return end_of_game
