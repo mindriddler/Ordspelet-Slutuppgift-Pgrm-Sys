@@ -1,4 +1,4 @@
-from email.encoders import encode_noop
+import msvcrt as m
 import os
 from itertools import islice
 import random
@@ -19,12 +19,18 @@ def return_to_main_menu():
             continue
 
 
+def remove_hints():
+    if os.path.exists('data\hints.txt'):
+        os.remove('data\hints.txt')
+
+
 def quit_game():
     print("Avslutar spelet.\nHa en bra dag!")
+    remove_hints()
     exit()
 
 
-def game_func_1():
+def game_func_1(): # Gamemode 1, player vs computer
     num_of_guesses = 0
     end_of_game = False
     word = get_word()
@@ -38,7 +44,13 @@ def game_func_1():
         correct_letter = 0
         guess = input("\nGissa på ett ord: ").lower()
         num_of_guesses += 1
-
+        
+        for char in guess:
+            count = guess.count(char)
+            if count > 1:
+                to_many_l = count
+                break
+            
         if guess == "spara spelet":
             num_of_guesses -= 1 # The guess is not counted if the user saves the game
             save_game(word, guessed_words, num_of_guesses)
@@ -48,6 +60,8 @@ def game_func_1():
         elif guess == "jag ger upp":
             print(f"Ordet var {word}")
             quit_game()
+        elif to_many_l > 1:
+            print("Ditt ord innehåller dubletter. Vänligen ange ett giltligt ord.")
         elif len(guess) != 5:    
             print("Vänligen ange ett giltligt ord.")
             num_of_guesses -= 1 # To not count the guess if it's not valid
@@ -74,8 +88,7 @@ def game_func_1():
             print(f"\n{correct_position} bokstäver på RÄTT plats!\n{correct_letter} korrekta bokstäver men på FEL plats.")
 
 
-
-def game_func_3(): # Loading saved game
+def game_func_3(): # Load feature for gamemode 1
     
     no_game_saved = False
     while not no_game_saved:
@@ -98,7 +111,12 @@ def game_func_3(): # Loading saved game
         correct_letter = 0
         guess = input("\nGissa på ett ord: ").lower()
         num_of_guesses += 1
-
+        for char in guess:
+            count = guess.count(char)
+            if count > 1:
+                to_many_l = count
+                break
+            
         if guess == "spara spelet":
             num_of_guesses -= 1 # The guess is not counted if the user saves the game
             save_game(word, guessed_words, num_of_guesses)
@@ -108,6 +126,8 @@ def game_func_3(): # Loading saved game
         elif guess == "jag ger upp":
             print(f"Ordet var {word}")
             quit_game()
+        elif to_many_l > 1:
+            print("Ditt ord innehåller dubletter. Vänligen ange ett giltligt ord.")
         elif len(guess) != 5:    
             print("Vänligen ange ett giltligt ord.")
             num_of_guesses -= 1 # To not count the guess if it's not valid
@@ -134,20 +154,19 @@ def game_func_3(): # Loading saved game
             print(f"\n{correct_position} bokstäver på RÄTT plats!\n{correct_letter} korrekta bokstäver men på FEL plats.")
 
 
-def game_func_2(): 
+def game_func_2(): # Gamemode 2, computer vs player
     
     end_of_game = False
     num_of_turns = 0
     user_word = player_word()
     python_list = create_word_list()
     
-    
     while not end_of_game:
         
         try:
             num_of_turns += 1
             word = random.choice(python_list)
-            answer = main_func(python_list, user_word, word, num_of_turns)
+            answer = main_func_gamemode_2(python_list, user_word, word, num_of_turns)
             
             if answer == "fel":
                 python_list = checking(python_list, word, user_word)
@@ -160,22 +179,37 @@ def game_func_2():
                 continue
         except TypeError:
             end_of_game = True
-
+        except IndexError:
+            print("\nPython har inte fler ord kvar att gissa på. Kontrollerar gissningar.")
+            print("Tryck på valfri tangent för att fortsätta.")
+            m.getch()
+            end_of_game = get_hints()
+            end_of_game = True
 
 def player_word():    
     
     while True:
         user_word = input("Vad är ditt ord?: ").lower()
-        if len(user_word) != 5:
+        to_many_l = 0
+        
+        for char in user_word:
+            count = user_word.count(char)
+            if count > 1:
+                to_many_l = count
+                break
+        
+        if to_many_l > 1:
+            print("Ditt ord innehåller dubletter. Vänligen ange ett giltligt ord.\n")
+        elif len(user_word) != 5:
             print("Du måste ange ett giltligt ord.")
         elif user_word.isalpha() == False:
-            print("Ordet får inte innehålla nummer eller andra symboler.")
+            print("Ordet får inte innehålla nummer eller andra symboler.\n")
         else:
             print("Du kan avsluta spelet genom att skriva 'quit'")
             return user_word
 
 
-def main_func(python_list, user_word, word, num_of_turns):
+def main_func_gamemode_2(python_list, user_word, word, num_of_turns):
     
     end_of_game = False
     
@@ -183,15 +217,18 @@ def main_func(python_list, user_word, word, num_of_turns):
         
         try:
             if num_of_turns % 5 == 0:
+                print("\nDu kan avsluta spelet genom att skriva 'quit'")
                 choice = input("Vill du veta hur många potentionela ord python har kvar?: ").lower() # Utökning av programmet som PDF filen föreslagit
                 if choice == "ja":
                     print(python_list)
                     print(f"Python har {len(python_list)} kvar att gissa på.")
+                elif choice == "quit":
+                    quit_game()
                 else:
                     pass
         except IndexError:
-            print("Python har inte fler ord kvar att gissa på.\nAvslutar spelet.")
-            exit()
+            print("\nPython har inte fler ord kvar att gissa på.\nKontrollerar gissningar.\n")
+            
             
         print(f"\nDitt ord: {user_word}")
         print(f"Pythons gissning: {word}")
@@ -200,15 +237,22 @@ def main_func(python_list, user_word, word, num_of_turns):
         if answer == "rätt":
             print("Python lyckades gissa rätt!")
             end_of_game = return_to_main_menu()
+        elif answer == "fel":
+            return answer
+        elif answer == "quit":
+            quit_game()
         else:
-            return answer  
+            print("Du måste ange 'rätt' eller 'fel'.")
+            continue
 
 
 def checking(python_list, word, user_word):    
     
+    
     while True:
         correct_spot = input("Hur många RÄTT bokstäver på RÄTT plats?: ")
         correct_char = input("Hur många RÄTT bokstäver på FEL plats?: ")
+        
         
         if correct_spot.isdigit() == False or correct_char.isdigit() == False:
             print("Du måste skriva in siffror. Försök igen.")
@@ -226,8 +270,23 @@ def checking(python_list, word, user_word):
             python_list = [word for word in python_list if len(set(user_word).intersection(set(word))) >= correct_letters]
             if word in python_list:
                 python_list.remove(word)
+        save_hint(word, user_word, correct_spot, correct_char)
         return python_list
 
+
+def save_hint(word, user_word, correct_spot, correct_char):        
+    
+    try:
+        with open('data\hints.txt', 'r', encoding="utf-8") as f:
+            hint_list = json.load(f)
+    except FileNotFoundError:
+    # If the file doesn't exist, use default values
+        hint_list = []
+        
+    hint_list.append((word, user_word, correct_spot, correct_char))
+    with open('data\hints.txt', 'w', encoding="utf-8") as f:
+        json.dump(hint_list, f)
+        
 
 def get_word():
     try:
@@ -335,7 +394,6 @@ def reset_highscore():
             continue
 
 
-
 def save_game(word, guessed_words, num_of_guesses):
     
     if os.path.exists('data\save_game.txt'): # If the file exists, delete it before saving the new game. Right now the save feature only saves one game at a time.
@@ -362,8 +420,8 @@ def save_game(word, guessed_words, num_of_guesses):
         else:
             print("Du måste skriva 'avsluta' eller 'fortsätta'.")
             continue
-        
-        
+
+
 def load_game():
     
     try:
@@ -377,3 +435,115 @@ def load_game():
         print("Det finns inget sparad spel att ladda.")
         return FileNotFoundError
     
+
+def add_word_to_words(word):
+    
+    print("""\nDu verkar inte ha gjort några fel med dina ledtrådar.
+Därför har jag kommit fram till att ditt ord saknas i ordlistan
+och kommer därför lägga till det för framtida spel.
+Tack för ditt bidrag!\n""")
+    try:
+        with open('data\words.txt', 'a+', encoding="utf-8") as f:
+            f.write("\n" + word)
+    except FileNotFoundError:
+        print("Kunde inte hitta ordlistan. Kan inte lägga till ordet.")
+        return FileNotFoundError
+    
+def get_hints():
+    word_list = create_word_list()
+    to_many_l = 0
+    hint_no = 0
+    word = input("\nVad var ditt ord? ").lower()
+    
+    
+        
+    try:
+        with open('data\hints.txt', 'r', encoding="utf-8") as f:
+            hints = json.load(f)
+            len_hints = len(hints)
+                    
+            for r in range(len_hints):
+                        
+                hint = hints[r]
+                hint_no = r + 1
+                python_guess = hint[0]
+                user_word = hint[1]
+                correct_spot = int(hint[2])
+                correct_char = int(hint[3])
+
+                for char in word:
+                    count = word.count(char)
+                    if count > 1:
+                        to_many_l = count
+                            
+                if word == "visa mitt ord":
+                    print(f"Ordet var '{user_word}'.")
+                    print("Tryck på valfri tangent för att fortsätta kontrollen.\n")
+                    m.getch()
+                elif to_many_l > 1:
+                    print("Ditt ord innehåller dubletter.\nOch det är därför python inte kunnat gissa ditt ord.\n")
+                    end_of_game = True
+                    return end_of_game
+                elif len(word) != 5:
+                    print("Du måste ange ett giltligt ord.")
+                    break
+                elif word.isalpha() == False:
+                    print("Ordet får inte innehålla nummer eller andra symboler.\n")
+                elif word != user_word:
+                    print("Ordet du angav stämmer inte överens med det ordet du angav när du startade spelet.")
+                    print("Om du har glömt bort ditt ord, skriv: 'visa mitt ord'.")
+                    print("Tryck på valfri tangent för att fortsätta.")
+                    m.getch()
+                    break
+                else:
+                    check_hints(user_word, python_guess, correct_spot, correct_char, hint_no)
+            if word not in word_list:
+                end_of_game = add_word_to_words(word)
+                return end_of_game
+    except FileNotFoundError:
+        print("Filen 'hints.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")             
+
+
+
+def check_hints(user_word, python_guess, correct_spot, correct_char, hint_no):
+    if user_word == python_guess:
+        print("Python gissade på rätt ord men du angav att det var fel ord!\nVänligen ha bättre översikt nästa gång.")
+        print("Tryck på valfri tangent för att återvända till huvudmenyn")
+        m.getch()
+        end_of_game = True
+        return end_of_game
+    
+    correct_position = 0
+    correct_letter = 0
+    
+    for i, l in enumerate(user_word.lower()):
+        if l == python_guess[i]:
+            correct_position += 1
+        elif l in python_guess:
+            correct_letter += 1    
+        
+    if correct_position != correct_spot or correct_letter != correct_char:
+        print(f"\nPython har gissat på ordet: '{python_guess}'.\nDitt ord var '{user_word}'.")
+        print(f"På gissning {hint_no} har du har svarat att det var {correct_spot} rätt bokstäver på rätt plats och {correct_char} rätt bokstäver på fel plats.")
+        print(f"När det egentligen är {correct_position} rätt bokstäver på rätt plats och {correct_letter} rätt bokstäver på fel plats.")
+        print("Du har alltså svarat fel på ditt svar.")
+        print("Tryck på valfri tangent för att återgå till huvudmenyn.")
+        correct_position = 0
+        correct_letter = 0
+        m.getch()
+    else:
+        if correct_position == correct_spot and correct_letter == correct_char:
+            print(f"\nPython har gissat på ordet: '{python_guess}'.\nDitt ord var '{user_word}'.")
+            print(f"På gissning {hint_no} har du har svarat att det var {correct_position} rätt bokstäver på rätt plats och {correct_letter} rätt bokstäver på fel plats.")
+            print("Du har alltså svarat rätt på ditt svar. Bra jobbat!\n")
+            correct_position = 0
+            correct_letter = 0
+        #     if word not in word_list:
+        #         end_of_game = add_word_to_words(word, word_list)
+        #         return end_of_game
+        #     else:
+        #         end_of_game = True
+        #         return end_of_game
+        # else:
+        #     end_of_game = True
+        #     return end_of_game
