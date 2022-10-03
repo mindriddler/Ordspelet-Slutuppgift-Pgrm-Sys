@@ -1,7 +1,7 @@
 import json
 import os
 import game.functions as f
-
+import msvcrt as m
 
 def save_game(word, guessed_words, num_of_guesses):
     
@@ -43,3 +43,27 @@ def load_game():
     except FileNotFoundError:
         print("Det finns inget sparad spel att ladda.")
         return FileNotFoundError
+
+
+def load_into_gm():
+    
+    no_game_saved = False
+    while not no_game_saved:
+        load = load_game()
+        if load == FileNotFoundError:
+            return FileNotFoundError 
+        break
+    
+    num_of_guesses = load[2]
+    word = load[0]
+    guessed_words = load[1]
+    return num_of_guesses, word, guessed_words   
+
+def delete_save():
+    try:
+        os.remove('data\save_game.txt')
+        print("Sparat spel har tagits bort.")
+        print("Tryck på valfri tangent för att fortsätta.")
+        m.getch()
+    except FileNotFoundError:
+        print("Det finns inget sparat spel att ta bort.")

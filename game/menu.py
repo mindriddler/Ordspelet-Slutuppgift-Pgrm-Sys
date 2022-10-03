@@ -2,8 +2,9 @@ import msvcrt as m
 import game.functions as f
 import game.game_mode_1 as gm1
 import game.game_mode_2 as gm2
-import game.game_mode_1_load as gm1l
+# import game.UNUSED as gm1l
 import game._highscore as h
+import game.save_load as sl
 
 def splash_screen():
     
@@ -45,7 +46,8 @@ def main_menu():
 | 2. Spela som tänkare      |
 -----------------------------
 | 3. Ladda spel             |
-| 4. Se nuvarande highscore |
+| 4. Radera sparat spel     |
+| 5. Se nuvarande highscore |
 -----------------------------
 | 8. Återställ highscore    |
 | 9. Avsluta                |
@@ -54,12 +56,23 @@ def main_menu():
         try:
             choice = int(input("Välj ett alternativ: "))
             if choice == 1:
-                gm1.game_func_1()
+                gm1.game_func_1(num_of_guesses=0, word="", guessed_words=[])
             elif choice == 2:
                 gm2.game_func_2()
             elif choice == 3:
-                gm1l.game_func_3()
+                load = sl.load_into_gm()
+                if load == FileNotFoundError:
+                    print("Tryck på valfri tangent för att fortsätta.")
+                    m.getch()
+                else:
+                    num_of_guesses = load[0]
+                    word = load[1]
+                    guessed_words = load[2]
+                    print("\nDitt spel har laddats!\n")
+                    gm1.game_func_1(num_of_guesses, word, guessed_words)
             elif choice == 4:
+                sl.delete_save()
+            elif choice == 5:
                 try:
                     h.print_highscore()
                 except ValueError:

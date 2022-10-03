@@ -2,11 +2,8 @@ import game.functions as f
 import game.save_load as sl
 import game._highscore as h
 
-def game_func_1(): # Gamemode 1, player vs computer
-    num_of_guesses = 0
-    end_of_game = False
-    word = f.get_word()
-    guessed_words = []
+
+def game_func_1(num_of_guesses, word, guessed_words): # Gamemode 1, player vs computer
         
     print("Du kan avsluta spelet genom att skriva 'jag ger upp'.")   
     print("Du kan spara ditt spel genom att skriva 'spara spelet'.")
@@ -23,23 +20,28 @@ def game_func_1(): # Gamemode 1, player vs computer
             if count > 1:
                 to_many_l = count
                 break
+        
+        while num_of_guesses % 5 == 0:
+            print("Du kan avsluta spelet genom att skriva 'jag ger upp'.") # To make sure the user knows how to quit the game. Good to have if the user forgets.
+            print("Du kan spara ditt spel genom att skriva 'spara spelet'.")
+            break
+        
             
         if guess == "spara spelet":
             num_of_guesses -= 1 # The guess is not counted if the user saves the game
             sl.save_game(word, guessed_words, num_of_guesses)
-        elif num_of_guesses % 5 == 0:
-            print("Du kan avsluta spelet genom att skriva 'jag ger upp'.") # To make sure the user knows how to quit the game. Good to have if the user forgets.
-            print("Du kan spara ditt spel genom att skriva 'spara spelet'.")
+        
         elif guess == "jag ger upp":
             print(f"Ordet var {word}")
             f.quit_game()
         elif to_many_l > 1:
             print("Ditt ord innehåller dubletter. Vänligen ange ett giltligt ord.")
+            num_of_guesses -= 1 # To not count the guess if it's not valid
         elif len(guess) != 5:    
-            print("Vänligen ange ett giltligt ord.")
+            print("Ditt ord måste innehålla 5 bokstäver. Vänligen ange ett giltligt ord.")
             num_of_guesses -= 1 # To not count the guess if it's not valid
         elif guess.isalpha() == False:
-            print("Vänligen ange ett giltligt ord.")
+            print("Ditt ord måste innehålla 5 bokstäver. Vänligen ange ett giltligt ord.")
             num_of_guesses -= 1 # To not count the guess if it's not valid
         elif guess == word.lower():
             print("Du gissade rätt!")
