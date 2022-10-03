@@ -1,5 +1,9 @@
 import msvcrt as m
 import game.functions as f
+import game_mode_1 as gm1
+import game_mode_2 as gm2
+import game_mode_1_load as gm1l
+import _highscore as h
 
 def splash_screen():
     
@@ -39,8 +43,8 @@ def main_menu():
 ----------MAIN MENU----------
 | 1. Spela som gissare      |
 | 2. Spela som tänkare      |
-| 3. Ladda spel             |
 -----------------------------
+| 3. Ladda spel             |
 | 4. Se nuvarande highscore |
 -----------------------------
 | 8. Återställ highscore    |
@@ -50,20 +54,20 @@ def main_menu():
         try:
             choice = int(input("Välj ett alternativ: "))
             if choice == 1:
-                f.game_func_1()
+                gm1.game_func_1()
             elif choice == 2:
-                f.game_func_2()
+                gm2.game_func_2()
             elif choice == 3:
-                f.game_func_3()
+                gm1l.game_func_3()
             elif choice == 4:
                 try:
-                    f.print_highscore()
+                    h.print_highscore()
                 except ValueError:
                     print("Det finns inga highscores än.")
                 print("\nTryck på valfri tangent för att fortsätta.")
                 m.getch()
             elif choice == 8:
-                f.reset_highscore()
+                h.reset_highscore()
             elif choice == 9:
                 f.quit_game()
             else:
