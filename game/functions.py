@@ -1,5 +1,3 @@
-
-from doctest import ELLIPSIS_MARKER
 import msvcrt as m
 import os
 from itertools import islice
