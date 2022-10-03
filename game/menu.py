@@ -30,9 +30,10 @@ Skriv 'nej' för att neka reglerna och avsluta spelet.""")
 
 
 def main_menu():   
-    end_of_game = False
     
-    while not end_of_game:
+    
+    while True:
+        f.remove_hints() # To remove hints from previous game, if still there  
         
         print("""
 ----------MAIN MENU----------
@@ -64,12 +65,12 @@ def main_menu():
             elif choice == 8:
                 f.reset_highscore()
             elif choice == 9:
-                print("Avslutar spelet.\nHa en bra dag!")
-                end_of_game = True
+                f.quit_game()
             else:
                 print("Du måste ange siffran som stämmer överens med det val du vill göra.")
         except ValueError:
-            print("Vänligen ange ett giltligt alternativ.")
+            # print("Vänligen ange ett giltligt alternativ.")
+            pass
 
 
 
