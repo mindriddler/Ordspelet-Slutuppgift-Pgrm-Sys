@@ -21,14 +21,14 @@ For how to install python 3.10, see instructions at the bottom
 - Can not be a name, such as "Johan"
 - Can not be in tempus or plural form
 
-**How to play the game:**
+## **How to play the game:** ##
 - Start the game by accepting the rules
 - Choose 1 or 2 depending on if you want to be the guesser or the thinker
 - Follow the instructions shown on the screen
-- You can always quit the game at any time by writing "quit" when aksed for a input
+- You can always quit the game at any time by writing "quit" when asked for a input
+- Password to reset highscore is "qwerty123"
 
 ## **How to run** ##
-
 - Navigate to the folder where you cloned the repository to in the terminal
 - Start the game
 ```
@@ -39,7 +39,6 @@ python main.py
 
 
 ## **Windows** ##
-
 You can either download python by clicking **_[here](https://www.python.org/downloads/)_**
 
 you can use also use winget by typing the line below into powershell
@@ -49,7 +48,6 @@ winget install python --accept-package-agreements
 <sup>read more about winget [here](https://learn.microsoft.com/en-us/windows/package-manager/winget/)</sup>
 
 ## **Linux** ##
-
 First check if python3.10 is already installed
 ```
 python3 -v
