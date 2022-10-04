@@ -1,7 +1,6 @@
 import os
 import random
 
-
 def get_word():
     try:
         file = open("data\words.txt", "r", encoding="utf-8")
@@ -12,6 +11,7 @@ def get_word():
     except FileNotFoundError:
         print("Filen 'words.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
         exit()
+
 
 def return_to_main_menu():
     while True:
@@ -27,8 +27,11 @@ def return_to_main_menu():
 
 
 def remove_hints():
-    if os.path.exists('data\hints.txt'):
-        os.remove('data\hints.txt')
+    try:    
+        if os.path.exists('data\hints.txt'):
+            os.remove('data\hints.txt')
+    except PermissionError:
+        pass
 
 
 def quit_game():
@@ -56,7 +59,7 @@ def player_word():
         elif user_word.isalpha() == False:
             print("Ordet får inte innehålla nummer eller andra symboler.\n")
         else:
-            print("Du kan avsluta spelet genom att skriva 'quit'")
+            print("Du kan avsluta spelet genom att skriva 'quit'.")
             return user_word
 
 
@@ -82,4 +85,5 @@ Tack för ditt bidrag!\n""")
     except FileNotFoundError:
         print("Kunde inte hitta ordlistan. Kan inte lägga till ordet.")
         return FileNotFoundError
-    
+
+

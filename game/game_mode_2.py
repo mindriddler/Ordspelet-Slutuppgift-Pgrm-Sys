@@ -32,8 +32,8 @@ def game_func_2(): # Gamemode 2, computer vs player
             print("\nPython har inte fler ord kvar att gissa på. Kontrollerar gissningar.")
             print("Tryck på valfri tangent för att fortsätta.")
             m.getch()
-            end_of_game = f.get_hints()
-            end_of_game = True
+            end_of_game = h_f.get_hints(user_word)
+            return end_of_game
             
 
 def main_func_gamemode_2(python_list, user_word, word, num_of_turns):
@@ -41,22 +41,17 @@ def main_func_gamemode_2(python_list, user_word, word, num_of_turns):
     end_of_game = False
     
     while not end_of_game:
-        
-        try:
-            if num_of_turns % 5 == 0:
-                print("\nDu kan avsluta spelet genom att skriva 'quit'")
-                choice = input("Vill du veta hur många potentionela ord python har kvar?: ").lower() # Utökning av programmet som PDF filen föreslagit
-                if choice == "ja":
-                    print(python_list)
-                    print(f"Python har {len(python_list)} kvar att gissa på.")
-                elif choice == "quit":
-                    f.quit_game()
-                else:
-                    pass
-        except IndexError:
-            print("\nPython har inte fler ord kvar att gissa på.\nKontrollerar gissningar.\n")
-            
-            
+        if num_of_turns % 5 == 0:
+            print("\nDu kan avsluta spelet genom att skriva 'quit'.")
+            choice = input("Vill du veta hur många potentionela ord python har kvar?: ").lower()
+            if choice == "ja":
+                print(python_list)
+                print(f"Python har {len(python_list)} kvar att gissa på.")
+            elif choice == "quit":
+                f.quit_game()
+            else:
+                pass
+
         print(f"\nDitt ord: {user_word}")
         print(f"Pythons gissning: {word}")
 
@@ -71,31 +66,32 @@ def main_func_gamemode_2(python_list, user_word, word, num_of_turns):
         else:
             print("Du måste ange 'rätt' eller 'fel'.")
             continue
-        
-        
+
+
 def checking(python_list, word, user_word):    
     
-    
+
     while True:
         correct_spot = input("Hur många RÄTT bokstäver på RÄTT plats?: ")
         correct_char = input("Hur många RÄTT bokstäver på FEL plats?: ")
-        
-        
+
         if correct_spot.isdigit() == False or correct_char.isdigit() == False:
             print("Du måste skriva in siffror. Försök igen.")
             continue
         elif correct_char == "quit" or correct_spot == "quit":
             f.quit_game()
+        elif int(correct_spot) + int(correct_char) > 5:
+            print("\nDu måste ha angivit fel siffror. Försök igen.")
+            continue
         else:
-            pass
-        
-        correct_letters = int(correct_spot) + int(correct_char)
-        
-        if correct_letters == 0:
-            python_list = [word for word in python_list if not len(set(user_word).intersection(set(word))) == 5]
-        elif correct_letters >= 1:
-            python_list = [word for word in python_list if len(set(user_word).intersection(set(word))) >= correct_letters]
-            if word in python_list:
-                python_list.remove(word)
-        h_f.save_hint(word, user_word, correct_spot, correct_char)
-        return python_list
+            
+            correct_letters = int(correct_spot) + int(correct_char)
+            
+            if correct_letters == 0:
+                python_list = [word for word in python_list if not len(set(user_word).intersection(set(word))) == 5]
+            elif correct_letters >= 1:
+                python_list = [word for word in python_list if len(set(user_word).intersection(set(word))) >= correct_letters]
+                if word in python_list:
+                    python_list.remove(word)
+            h_f.save_hint(word, user_word, correct_spot, correct_char)
+            return python_list
