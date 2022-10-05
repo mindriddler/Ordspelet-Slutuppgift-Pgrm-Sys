@@ -2,6 +2,8 @@ import os
 import random
 import game.hint_functions as h_f
 import game.functions as f
+
+
 def get_word():
     try:
         file = open("data\words.txt", "r", encoding="utf-8")
