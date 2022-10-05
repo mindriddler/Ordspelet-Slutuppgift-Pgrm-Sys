@@ -98,7 +98,7 @@ def check_if_word_valid(guess, guessed_words):
         return "valid"
 
 
-def checking(python_list, word, user_word):    
+def checking_python_guess(python_list, word, user_word):    
     
     while True:
         correct_spot = input("Hur många RÄTT bokstäver på RÄTT plats?: ")

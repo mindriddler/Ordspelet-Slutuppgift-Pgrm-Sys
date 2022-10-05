@@ -30,7 +30,7 @@ def game_func(num_of_guesses, word, guessed_words, end_of_game): # Gamemode 1, p
             continue
         else:
             num_of_guesses += 1
-            while num_of_guesses % 5 == 0: # To make sure the user knows how to quit the game and save the game. Good to have if the user forgets.
+            while num_of_guesses % 6 == 0: # To make sure the user knows how to quit the game and save the game. Good to have if the user forgets.
                 print("Du kan avsluta spelet genom att skriva 'jag ger upp' eller 'quit'.") 
                 print("Du kan spara ditt spel genom att skriva 'spara spelet'.")
                 break

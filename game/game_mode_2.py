@@ -17,12 +17,12 @@ def game_func_2(): # Gamemode 2, computer vs player
             word = random.choice(python_list)
             
             
-            if num_of_turns % 5 == 0:
+            if num_of_turns % 6 == 0:
                 w.python_words_left(python_list, num_of_turns)
             
             answer = w.right_or_wrong(user_word, word)
             if answer == "fel":
-                python_list = w.checking(python_list, word, user_word)
+                python_list = w.checking_python_guess(python_list, word, user_word)
             elif answer == "quit":
                 f.quit_game()
             elif answer == None or answer == True:
