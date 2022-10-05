@@ -1,7 +1,7 @@
 import os
 import random
 import game.hint_functions as h_f
-
+import game.functions as f
 def get_word():
     try:
         file = open("data\words.txt", "r", encoding="utf-8")
@@ -44,21 +44,11 @@ def quit_game():
 def player_word():    
     
     while True:
-        user_word = input("Vad är ditt ord?: ").lower()
-        to_many_l = 0
+        user_word = input("\nVad är ditt ord?: ").lower()
         
-        for char in user_word:
-            count = user_word.count(char)
-            if count > 1:
-                to_many_l = count
-                break
-        
-        if to_many_l > 1:
-            print("Ditt ord innehåller dubletter. Vänligen ange ett giltligt ord.\n")
-        elif len(user_word) != 5:
-            print("Du måste ange ett giltligt ord.")
-        elif user_word.isalpha() == False:
-            print("Ordet får inte innehålla nummer eller andra symboler.\n")
+        validation = f.check_if_word_valid(user_word, guessed_words=[])
+        if validation == "not valid":
+            continue
         else:
             print("Du kan avsluta spelet genom att skriva 'quit'.")
             return user_word
