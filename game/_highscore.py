@@ -44,13 +44,16 @@ def print_highscore():
             highscores = json.load(file)
             limit = 10
         print("\nNuvarande topp 10 bästa spelrundor!")
+        print("-----------------------------------")
         for item in islice(highscores, limit):
             print(f"{item[0]}: {item[1]} gissningar")
+        print("-----------------------------------")
     except FileNotFoundError:
         print("Det finns ingen sparad poäng än. Spela spelet för att spara din poäng.")  
     try:
         average_guesses = sum([item[1] for item in highscores]) / len(highscores)
-        print(f"\nMedelvärdet på antal gissningar är: {average_guesses}")
+        print(f"\nMedelvärdet på antal gissningar är: {average_guesses} stycken.")
+        input("\nTryck enter för att återgå till huvudmenyn.")
     except UnboundLocalError:
         pass
 

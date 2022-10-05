@@ -1,5 +1,6 @@
 import os
 import random
+import game.hint_functions as h_f
 
 def get_word():
     try:
@@ -87,3 +88,66 @@ Tack för ditt bidrag!\n""")
         return FileNotFoundError
 
 
+def check_pos(guess, word):
+    
+    while True:
+        correct_position = 0
+        correct_letter = 0
+    
+        for i, l in enumerate(word.lower()):
+            if l == guess[i]:
+                correct_position += 1
+            elif l in guess:
+                correct_letter += 1
+        return correct_position, correct_letter
+    
+
+def correlation(correct_spot, correct_char, python_list, word, user_word):
+    
+    correct_letters = int(correct_spot) + int(correct_char)
+            
+    if correct_letters == 0:
+        python_list = [word for word in python_list if not len(set(user_word).intersection(set(word))) == 5]
+    elif correct_letters >= 1:
+        python_list = [word for word in python_list if len(set(user_word).intersection(set(word))) >= correct_letters]
+        if word in python_list:
+            python_list.remove(word)
+    return python_list
+
+
+def check_if_word_valid(guess, guessed_words):
+    
+    to_many_l = 0
+    
+    for char in guess:
+            count = guess.count(char)
+            if count > 1:
+                to_many_l = count
+                break
+    
+    if to_many_l > 1 or len(guess) != 5 or guess.isalpha() == False:
+        print("Ditt ord är inte ett giltligt ord. Kontrollera och välj ett nytt.")
+        return "not valid"
+    elif guess in guessed_words:
+        print("Du har redan gissat på det ordet. Prova med ett annat ord.")
+        return "not valid"
+    else:
+        return "valid"
+
+
+def checking(python_list, word, user_word):    
+    
+    while True:
+        correct_spot = input("Hur många RÄTT bokstäver på RÄTT plats?: ")
+        correct_char = input("Hur många RÄTT bokstäver på FEL plats?: ")
+        if correct_spot.isdigit() == False or correct_char.isdigit() == False:
+            print("Du måste skriva in siffror. Försök igen.")
+            continue
+        elif correct_char == "quit" or correct_spot == "quit":
+            quit_game()
+        elif int(correct_spot) + int(correct_char) > 5:
+            print("\nDu måste ha angivit fel siffror. Försök igen.")
+            continue
+        else:
+            h_f.save_hint(word, user_word, correct_spot, correct_char)
+            return correlation(correct_spot, correct_char, python_list, word, user_word)

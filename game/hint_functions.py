@@ -1,5 +1,4 @@
 import json
-import msvcrt as m
 import game.functions as f
 
 
@@ -27,8 +26,7 @@ def get_hints(user_word):
         word = input("\nVad var ditt ord?: ").lower()
         if word == "visa mitt ord":
             print(f"Ordet var '{user_word}'.")
-            print("Tryck på valfri tangent för att fortsätta kontrollen.")
-            m.getch()
+            input("Tryck på valfri tangent för att fortsätta kontrollen...")
         elif user_word != word:
             print("Ordet du angav stämmer inte överens med det ordet du angav när du startade spelet. \nOm du har glömt bort ditt ord, skriv: 'visa mitt ord'.")
         else:
@@ -42,7 +40,7 @@ def get_hints(user_word):
                         
                 for r in range(len_hints):
                     hint = hints[r]
-                    python_guess = hint[0]
+                    guess = hint[0]
                     user_word = hint[1]
                     correct_spot = int(hint[2])
                     correct_char = int(hint[3])
@@ -61,7 +59,7 @@ def get_hints(user_word):
                     elif word.isalpha() == False:
                         print("Ordet får inte innehålla nummer eller andra symboler.\n")  
                     else:
-                        corr_or_wrong = check_hints(user_word, python_guess, correct_spot, correct_char, len_hints, hints)
+                        corr_or_wrong = check_hints(word, correct_spot, correct_char, len_hints, hints)
                     
                     if corr_or_wrong == "wrong":
                         end_of_game = f.return_to_main_menu()
@@ -76,30 +74,24 @@ def get_hints(user_word):
             print("Filen 'hints.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")  
 
 
-def check_hints(user_word, python_guess, correct_spot, correct_char, len_hints, hints):
+def check_hints(word, correct_spot, correct_char, len_hints, hints):
 
-    correct_position = 0
-    correct_letter = 0
     correct_hints = 0
     wrong_hints = 0
     
     for r in range(len_hints):
         hint = hints[r]
-        python_guess = hint[0]
-        if user_word == python_guess:
+        guess = hint[0]
+        if word == guess:
             print("\nPython gissade faktiskt på rätt ord men du har angivit att det var fel.\nVänligen kontrollera dina dina inmatningar bättre och försök igen.\n")
             end_of_game = f.return_to_main_menu()
             return end_of_game
         continue
-    for i, l in enumerate(user_word.lower()):
-        if l == python_guess[i]:
-            correct_position += 1
-        elif l in python_guess:
-            correct_letter += 1    
+    pos = f.check_position(word, guess)   
             
-    if correct_position != correct_spot or correct_letter != correct_char:
+    if pos[0] != correct_spot or pos[1] != correct_char:
         wrong_hints += 1
-    elif correct_position == correct_spot and correct_letter == correct_char:
+    elif pos[0] == correct_spot and pos[1] == correct_char:
         correct_hints += 1
         
     if wrong_hints > 0:

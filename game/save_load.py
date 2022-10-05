@@ -1,7 +1,6 @@
 import json
 import os
 import game.functions as f
-import msvcrt as m
 
 def save_game(word, guessed_words, num_of_guesses):
     
@@ -25,7 +24,7 @@ def save_game(word, guessed_words, num_of_guesses):
         if choice == "avsluta":
             f.quit_game()
         elif choice == "fortsätta":
-            return False
+            return
         else:
             print("Du måste skriva 'avsluta' eller 'fortsätta'.")
             continue
@@ -63,7 +62,6 @@ def delete_save():
     try:
         os.remove('data\save_game.txt')
         print("Sparat spel har tagits bort.")
-        print("Tryck på valfri tangent för att fortsätta.")
-        m.getch()
+        input("Tryck på valfri tangent för att fortsätta...")
     except FileNotFoundError:
         print("Det finns inget sparat spel att ta bort.")
