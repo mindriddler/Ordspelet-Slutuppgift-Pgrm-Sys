@@ -1,7 +1,7 @@
 import game.functions as f
 import game.save_load as sl
 import game._highscore as h
-
+import game.word_functions as w
 
 def game_func(num_of_guesses, word, guessed_words, end_of_game): # Gamemode 1, player vs computer
         
@@ -25,7 +25,7 @@ def game_func(num_of_guesses, word, guessed_words, end_of_game): # Gamemode 1, p
                 print(f"Du hade totalt {num_of_guesses} gissningar.\n")
             end_of_game = h.highscore(num_of_guesses)
         
-        validation = f.check_if_word_valid(guess, guessed_words) 
+        validation = w.check_if_word_valid(guess, guessed_words) 
         if validation == "not valid":
             continue
         else:
@@ -35,6 +35,6 @@ def game_func(num_of_guesses, word, guessed_words, end_of_game): # Gamemode 1, p
                 print("Du kan spara ditt spel genom att skriva 'spara spelet'.")
                 break
             guessed_words.append(guess)
-            checked = f.check_pos(guess, word)
+            checked = w.check_pos(guess, word)
             print(f"\n{checked[0]} bokstäver på RÄTT plats!\n{checked[1]} korrekta bokstäver men på FEL plats.")
 

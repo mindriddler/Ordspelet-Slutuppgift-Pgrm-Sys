@@ -1,12 +1,12 @@
 import json
 import game.functions as f
-
+import game.word_functions as w
 
 def save_hint(word, user_word, correct_spot, correct_char):        
     
     try:
-        with open('data\hints.txt', 'r', encoding="utf-8") as f:
-            hint_list = json.load(f)
+        with open('data\hints.txt', 'r', encoding="utf-8") as file:
+            hint_list = json.load(file)
     except FileNotFoundError:
     # If the file doesn't exist, use default values
         hint_list = []
@@ -18,7 +18,7 @@ def save_hint(word, user_word, correct_spot, correct_char):
 
 def get_hints(user_word):
     
-    word_list = f.create_word_list()
+    word_list = w.create_word_list()
     to_many_l = 0
     end_of_game = False
     
@@ -87,7 +87,7 @@ def check_hints(word, correct_spot, correct_char, len_hints, hints):
             end_of_game = f.return_to_main_menu()
             return end_of_game
         continue
-    pos = f.check_position(word, guess)   
+    pos = w.check_pos(word, guess)   
             
     if pos[0] != correct_spot or pos[1] != correct_char:
         wrong_hints += 1

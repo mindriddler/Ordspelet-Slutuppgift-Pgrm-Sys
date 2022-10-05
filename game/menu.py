@@ -4,6 +4,7 @@ import game.game_mode_1 as gm1
 import game.game_mode_2 as gm2
 import game._highscore as h
 import game.save_load as sl
+import game.word_functions as w
 from os import system, name
 
 def splash_screen():
@@ -58,11 +59,11 @@ def main_menu():
         try:
             choice = int(input("Välj ett alternativ: "))
             if choice == 1:
-                gm1.game_func(num_of_guesses=0, word=f.get_word(), guessed_words=[], end_of_game=False)
+                gm1.game_func(num_of_guesses=0, word=w.get_word(), guessed_words=[], end_of_game=False)
             elif choice == 2:
                 gm2.game_func_2()
             elif choice == 3:
-                load = sl.load_into_gm()
+                load = sl.load_game()
                 if load == FileNotFoundError:
                     print("Välj ett annat alternativ.\n")
                     input("Tryck på valfri tangent för att fortsätta...")

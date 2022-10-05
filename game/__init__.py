@@ -6,3 +6,4 @@ import game.game_mode_1 as gm1
 import game.game_mode_2 as gm2
 import game._highscore as h
 import game.hint_functions as h_f
+import game.word_functions as w

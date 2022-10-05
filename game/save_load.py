@@ -8,7 +8,7 @@ def save_game(word, guessed_words, num_of_guesses):
         os.remove('data\save_game.txt') 
     try:
         with open('data\save_game.txt', 'r', encoding="utf-8") as file:
-            save_game = json.load(f)
+            save_game = json.load(file)
     except FileNotFoundError:
         # If the file doesn't exist, use default values
         save_game = []
@@ -37,25 +37,10 @@ def load_game():
             word = save_game[0][0]
             guessed_words = save_game[0][1]
             num_of_guesses = save_game[0][2]
-            return word, guessed_words, num_of_guesses
+            return num_of_guesses, word, guessed_words
     except FileNotFoundError:
         print("Det finns inget sparad spel att ladda.")
         return FileNotFoundError
-
-
-def load_into_gm():
-    
-    no_game_saved = False
-    while not no_game_saved:
-        load = load_game()
-        if load == FileNotFoundError:
-            return FileNotFoundError 
-        break
-    
-    num_of_guesses = load[2]
-    word = load[0]
-    guessed_words = load[1]
-    return num_of_guesses, word, guessed_words   
 
 
 def delete_save():
