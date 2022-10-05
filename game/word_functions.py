@@ -19,7 +19,7 @@ def player_word():
     while True:
         user_word = input("\nVad är ditt ord?: ").lower()
         
-        validation = f.check_if_word_valid(user_word, guessed_words=[])
+        validation = check_if_word_valid(user_word, guessed_words=[])
         if validation == "not valid":
             continue
         else:
