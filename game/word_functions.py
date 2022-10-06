@@ -46,6 +46,8 @@ Tack för ditt bidrag!\n""")
     try:
         with open('data\words.txt', 'a+', encoding="utf-8") as file:
             file.write("\n" + word)
+            end_of_game = True
+            return end_of_game
     except FileNotFoundError:
         print("Kunde inte hitta ordlistan. Kan inte lägga till ordet.")
         return FileNotFoundError
@@ -71,6 +73,8 @@ def correlation(correct_spot, correct_char, python_list, word, user_word):
             
     if correct_letters == 0:
         python_list = [word for word in python_list if not len(set(user_word).intersection(set(word))) == 5]
+        if word in python_list:
+            python_list.remove(word)
     elif correct_letters >= 1:
         python_list = [word for word in python_list if len(set(user_word).intersection(set(word))) >= correct_letters]
         if word in python_list:
@@ -116,19 +120,18 @@ def checking_python_guess(python_list, word, user_word):
             return correlation(correct_spot, correct_char, python_list, word, user_word)
         
         
-def python_words_left(python_list, num_of_turns):
+def python_words_left(python_list):
     
-    if num_of_turns % 5 == 0:
-        print("\nDu kan avsluta spelet genom att skriva 'quit'.")
-        choice = input("Vill du veta hur många potentionela ord python har kvar?: ").lower()
-        if choice == "ja":
-            print("") # New line. Visste inte hur jag kunde få den att fungera när jag anvnäder en * i nästa print.
-            print(*python_list, sep=', ')
-            print(f"Python har {len(python_list)} ord kvar att gissa på.")
-        elif choice == "quit":
-            f.quit_game()
-        else:
-            pass
+    print("\nDu kan avsluta spelet genom att skriva 'quit'.")
+    choice = input("Vill du veta hur många potentionela ord python har kvar?: ").lower()
+    if choice == "ja":
+        print("") # New line. Visste inte hur jag kunde få den att fungera när jag anvnäder en * i nästa print.
+        print(*python_list, sep=', ')
+        print(f"Python har {len(python_list)} ord kvar att gissa på.")
+    elif choice == "quit":
+        f.quit_game()
+    else:
+        pass
 
 
 def right_or_wrong(user_word, word):

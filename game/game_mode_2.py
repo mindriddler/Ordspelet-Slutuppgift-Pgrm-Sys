@@ -6,7 +6,7 @@ import game.word_functions as w
 def game_func_2(): # Gamemode 2, computer vs player
     
     end_of_game = False
-    num_of_turns = 0
+    num_of_turns = 4
     user_word = w.player_word()
     python_list = w.create_word_list()
     
@@ -18,7 +18,7 @@ def game_func_2(): # Gamemode 2, computer vs player
             
             
             if num_of_turns % 6 == 0:
-                w.python_words_left(python_list, num_of_turns)
+                w.python_words_left(python_list)
             
             answer = w.right_or_wrong(user_word, word)
             if answer == "fel":

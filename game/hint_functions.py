@@ -19,7 +19,6 @@ def save_hint(word, user_word, correct_spot, correct_char):
 def get_hints(user_word):
     
     word_list = w.create_word_list()
-    to_many_l = 0
     end_of_game = False
     
     while True:
@@ -30,75 +29,81 @@ def get_hints(user_word):
         elif user_word != word:
             print("Ordet du angav stämmer inte överens med det ordet du angav när du startade spelet. \nOm du har glömt bort ditt ord, skriv: 'visa mitt ord'.")
         else:
-            break
+            validation = w.check_if_word_valid(word, guessed_words=[])
+            if validation == "valid":
+                break
+            else:
+                continue
     
     while not end_of_game:
         try:
             with open('data\hints.txt', 'r', encoding="utf-8") as file:
-                hints = json.load(file)
-                len_hints = len(hints)
-                        
-                for r in range(len_hints):
-                    hint = hints[r]
-                    guess = hint[0]
-                    user_word = hint[1]
-                    correct_spot = int(hint[2])
-                    correct_char = int(hint[3])
+                hints = json.load(file)  
+                # for r in range(len_hints):
+                #     hint = hints[r]
+                #     guess = hint[0]
+                #     user_word = hint[1]
+                #     correct_spot = int(hint[2])
+                #     correct_char = int(hint[3])
                     
-                    for char in word:
-                        count = word.count(char)
-                        if count > 1:
-                            to_many_l = count
-                            if to_many_l > 1:
-                                print("Ditt ord innehåller dubletter.\nOch det är därför python inte kunnat gissa ditt ord.\n")
-                                end_of_game = f.return_to_main_menu()
-                                return end_of_game
-                    if len(word) != 5:
-                        print("Du måste ange ett giltligt ord.")
-                        break
-                    elif word.isalpha() == False:
-                        print("Ordet får inte innehålla nummer eller andra symboler.\n")  
-                    else:
-                        corr_or_wrong = check_hints(word, correct_spot, correct_char, len_hints, hints)
+                    # for char in word:
+                    #     count = word.count(char)
+                    #     if count > 1:
+                    #         to_many_l = count
+                    #         if to_many_l > 1:
+                    #             print("Ditt ord innehåller dubletter.\nOch det är därför python inte kunnat gissa ditt ord.\n")
+                    #             end_of_game = f.return_to_main_menu()
+                    #             return end_of_game
+                    # if len(word) != 5:
+                    #     print("Du måste ange ett giltligt ord.")
+                    #     break
+                    # elif word.isalpha() == False:
+                    #     print("Ordet får inte innehålla nummer eller andra symboler.\n")  
+                    # else:
+                corr_or_wrong = check_hints(word, hints)
                     
-                    if corr_or_wrong == "wrong":
-                        end_of_game = f.return_to_main_menu()
+                if corr_or_wrong == "wrong":
+                    end_of_game = f.return_to_main_menu()
+                    return end_of_game
+                elif corr_or_wrong == "correct":
+                    if word not in word_list:
+                        end_of_game = w.add_word_to_words(word)
                         return end_of_game
-                    elif corr_or_wrong == "correct":
-                        if word not in word_list:
-                            end_of_game = f.add_word_to_words(word)
-                            return end_of_game
-                    else:
-                        return end_of_game
+                else:
+                    return end_of_game
         except FileNotFoundError:
             print("Filen 'hints.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")  
 
 
-def check_hints(word, correct_spot, correct_char, len_hints, hints):
+def check_hints(word, hints):
 
     correct_hints = 0
     wrong_hints = 0
+    len_hints = len(hints)
     
     for r in range(len_hints):
         hint = hints[r]
         guess = hint[0]
+        user_word = hint[1]
+        correct_spot = int(hint[2])
+        correct_char = int(hint[3])
         if word == guess:
             print("\nPython gissade faktiskt på rätt ord men du har angivit att det var fel.\nVänligen kontrollera dina dina inmatningar bättre och försök igen.\n")
             end_of_game = f.return_to_main_menu()
             return end_of_game
-        continue
-    pos = w.check_pos(word, guess)   
-            
-    if pos[0] != correct_spot or pos[1] != correct_char:
-        wrong_hints += 1
-    elif pos[0] == correct_spot and pos[1] == correct_char:
-        correct_hints += 1
+        else:
+            pos = w.check_pos(word, guess)   
+                        
+            if pos[0] != correct_spot or pos[1] != correct_char:
+                wrong_hints += 1
+            elif pos[0] == correct_spot and pos[1] == correct_char:
+                correct_hints += 1
         
     if wrong_hints > 0:
         print(f"\nDu har angivit fel antal rätt positioner eller rätt bokstäver i {wrong_hints} av dina tips.\nVänligen kontrollera dina inmatningar bättre och försök igen.")
-        print("Tryck på valfri tangent för att fortsätta.\n")
+        input("Tryck på valfri tangent för att fortsätta.\n")
         return "wrong"
     elif correct_hints > 0:
-        print(f"\nDu har angivit rätt antal rätt positioner och rätt bokstäver i {correct_hints} av dina tips.\nBra jobbat!")
-        print("Tryck på valfri tangent för att fortsätta.\n")
+        print(f"\nDu har angivit rätt antal rätt positioner och rätt bokstäver i dina tips.\nBra jobbat!")
+        input("Tryck på valfri tangent för att fortsätta.\n")
         return "correct"
