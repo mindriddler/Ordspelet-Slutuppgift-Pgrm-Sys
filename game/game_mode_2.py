@@ -2,13 +2,11 @@ import random
 import game.functions as f
 import game.hint_functions as h_f
 import game.word_functions as w
+import game.save_load as s_f
 
-def game_func_2(): # Gamemode 2, computer vs player
-    
-    end_of_game = False
-    num_of_turns = 4
-    user_word = w.player_word()
-    python_list = w.create_word_list()
+
+
+def game_func_2(user_word, python_list, num_of_turns, end_of_game): # Gamemode 2, computer vs player
     
     while not end_of_game:
         
@@ -25,12 +23,15 @@ def game_func_2(): # Gamemode 2, computer vs player
                 python_list = w.checking_python_guess(python_list, word, user_word)
             elif answer == "quit":
                 f.quit_game()
+            elif answer == "spara spelet":
+                s_f.save_game_gm2(user_word, python_list, num_of_turns)
             elif answer == None or answer == True:
                 end_of_game = True
             else:
                 print("Du måste ange 'rätt' eller 'fel'.")
                 continue
-        except TypeError:
+        except TypeError as error:
+            print(error)
             end_of_game = True
         except IndexError:
             print("\nPython har inte fler ord kvar att gissa på. Kontrollerar gissningar.")

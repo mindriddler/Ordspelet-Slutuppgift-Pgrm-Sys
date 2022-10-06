@@ -27,7 +27,7 @@ def get_hints(user_word):
             print(f"Ordet var '{user_word}'.")
             input("Tryck på valfri tangent för att fortsätta kontrollen...")
         elif user_word != word:
-            print("Ordet du angav stämmer inte överens med det ordet du angav när du startade spelet. \nOm du har glömt bort ditt ord, skriv: 'visa mitt ord'.")
+            print("Ordet du angav stämmer inte överens med det ordet du angav när du startade spelet.\nOm du har glömt bort ditt ord, skriv: 'visa mitt ord'.")
         else:
             validation = w.check_if_word_valid(word, guessed_words=[])
             if validation == "valid":
@@ -39,27 +39,7 @@ def get_hints(user_word):
         try:
             with open('data\hints.txt', 'r', encoding="utf-8") as file:
                 hints = json.load(file)  
-                # for r in range(len_hints):
-                #     hint = hints[r]
-                #     guess = hint[0]
-                #     user_word = hint[1]
-                #     correct_spot = int(hint[2])
-                #     correct_char = int(hint[3])
-                    
-                    # for char in word:
-                    #     count = word.count(char)
-                    #     if count > 1:
-                    #         to_many_l = count
-                    #         if to_many_l > 1:
-                    #             print("Ditt ord innehåller dubletter.\nOch det är därför python inte kunnat gissa ditt ord.\n")
-                    #             end_of_game = f.return_to_main_menu()
-                    #             return end_of_game
-                    # if len(word) != 5:
-                    #     print("Du måste ange ett giltligt ord.")
-                    #     break
-                    # elif word.isalpha() == False:
-                    #     print("Ordet får inte innehålla nummer eller andra symboler.\n")  
-                    # else:
+                
                 corr_or_wrong = check_hints(word, hints)
                     
                 if corr_or_wrong == "wrong":
@@ -88,7 +68,7 @@ def check_hints(word, hints):
         correct_spot = int(hint[2])
         correct_char = int(hint[3])
         if word == guess:
-            print("\nPython gissade faktiskt på rätt ord men du har angivit att det var fel.\nVänligen kontrollera dina dina inmatningar bättre och försök igen.\n")
+            print("\nPython gissade faktiskt på rätt ord men du har angivit att det var fel.\nVänligen kontrollera dina inmatningar bättre och försök igen.\n")
             end_of_game = f.return_to_main_menu()
             return end_of_game
         else:
@@ -100,7 +80,7 @@ def check_hints(word, hints):
                 correct_hints += 1
         
     if wrong_hints > 0:
-        print(f"\nDu har angivit fel antal rätt positioner eller rätt bokstäver i {wrong_hints} av dina tips.\nVänligen kontrollera dina inmatningar bättre och försök igen.")
+        print(f"\nDu har angivit fel antal rätt positioner eller rätt bokstäver i {wrong_hints} av dina tips.\nDärför har Python inte kunnat gissa ditt ord.\nVänligen kontrollera dina inmatningar bättre och försök igen.")
         input("Tryck på valfri tangent för att fortsätta.\n")
         return "wrong"
     elif correct_hints > 0:

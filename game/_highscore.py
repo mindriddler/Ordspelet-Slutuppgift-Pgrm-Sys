@@ -49,11 +49,13 @@ def print_highscore():
             print(f"{item[0]}: {item[1]} gissningar")
         print("-----------------------------------")
     except FileNotFoundError:
-        print("Det finns ingen sparad poäng än. Spela spelet för att spara din poäng.")  
+        print("Det finns ingen sparad poäng än. Spela spelet för att spara din poäng.")
+        input("\nTryck på valfri tangent för att återvända till huvudmenyn.")
+        
     try:
         average_guesses = sum([item[1] for item in highscores]) / len(highscores)
         print(f"\nMedelvärdet på antal gissningar är: {average_guesses} stycken.")
-        input("\nTryck enter för att återgå till huvudmenyn.")
+        input("\nTryck på valfri tangent för att återvända till huvudmenyn.")
     except UnboundLocalError:
         pass
 

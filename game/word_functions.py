@@ -17,13 +17,14 @@ def get_word():
 def player_word():    
     
     while True:
-        user_word = input("\nVad är ditt ord?: ").lower()
+        user_word = input("Vad är ditt ord?: ").lower()
         
         validation = check_if_word_valid(user_word, guessed_words=[])
         if validation == "not valid":
             continue
         else:
             print("Du kan avsluta spelet genom att skriva 'quit'.")
+            print("Du kan spara spelet genom att skriva 'spara spelet'.")
             return user_word
 
 
@@ -39,13 +40,16 @@ def create_word_list():
 
 def add_word_to_words(word):
     
-    print("""\nDu verkar inte ha gjort några fel med dina ledtrådar.
+    print("""Du verkar inte ha gjort några fel med dina ledtrådar.
 Därför har jag kommit fram till att ditt ord saknas i ordlistan
 och kommer därför lägga till det för framtida spel.
 Tack för ditt bidrag!\n""")
     try:
         with open('data\words.txt', 'a+', encoding="utf-8") as file:
             file.write("\n" + word)
+            print("Ordet har lagts till i ordlistan.")
+            input("Tryck på valfri tangent för att fortsätta.")
+            f.clear_screen()
             end_of_game = True
             return end_of_game
     except FileNotFoundError:
@@ -146,10 +150,8 @@ def right_or_wrong(user_word, word):
             print("Python lyckades gissa rätt!")
             end_of_game = f.return_to_main_menu()
             return end_of_game
-        elif answer == "fel":
+        elif answer == "fel" or answer == "spara spelet" or answer == "quit":
             return answer
-        elif answer == "quit":
-            f.quit_game()
         else:
             print("Du måste ange 'rätt' eller 'fel'.")
             continue

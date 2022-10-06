@@ -24,5 +24,9 @@ def remove_hints():
 
 def quit_game():
     print("Avslutar spelet.\nHa en bra dag!")
-    remove_hints()
+    # remove_hints()
     exit()
+
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')

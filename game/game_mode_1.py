@@ -3,7 +3,7 @@ import game.save_load as sl
 import game._highscore as h
 import game.word_functions as w
 
-def game_func(num_of_guesses, word, guessed_words, end_of_game): # Gamemode 1, player vs computer
+def game_func_1(num_of_guesses, word, guessed_words, end_of_game): # Gamemode 1, player vs computer
         
     print("Du kan avsluta spelet genom att skriva 'jag ger upp'.")   
     print("Du kan spara ditt spel genom att skriva 'spara spelet'.")
@@ -12,7 +12,7 @@ def game_func(num_of_guesses, word, guessed_words, end_of_game): # Gamemode 1, p
         guess = input("\nGissa på ett ord: ").lower()
         if guess == "spara spelet":
             num_of_guesses -= 1 # The guess is not counted if the user saves the game
-            sl.save_game(word, guessed_words, num_of_guesses)
+            sl.save_game_gm1(word, guessed_words, num_of_guesses)
             continue
         elif guess == "jag ger upp" or guess == "quit":
             print(f"Ordet var {word}")
