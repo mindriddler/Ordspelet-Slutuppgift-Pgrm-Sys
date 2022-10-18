@@ -28,7 +28,9 @@ def get_hints(user_word):
             print(f"Ordet var '{user_word}'.")
             input("Tryck på valfri tangent för att fortsätta kontrollen...")
         elif user_word != word:
-            print("Ordet du angav stämmer inte överens med det ordet du angav när du startade spelet.\nOm du har glömt bort ditt ord, skriv: 'visa mitt ord'.")
+            print(
+                "Ordet du angav stämmer inte överens med det ordet du angav när du startade spelet.\nOm du har glömt bort ditt ord, skriv: 'visa mitt ord'."
+            )
         else:
             validation = w.check_if_word_valid(word, guessed_words=[])
             if validation == "valid":
@@ -53,7 +55,9 @@ def get_hints(user_word):
                 else:
                     return end_of_game
         except FileNotFoundError:
-            print("Filen 'hints.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
+            print(
+                "Filen 'hints.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen."
+            )
 
 
 def check_hints(word, hints):
@@ -68,7 +72,9 @@ def check_hints(word, hints):
         correct_spot = int(hint[2])
         correct_char = int(hint[3])
         if word == guess:
-            print("\nPython gissade faktiskt på rätt ord men du har angivit att det var fel.\nVänligen kontrollera dina inmatningar bättre och försök igen.\n")
+            print(
+                "\nPython gissade faktiskt på rätt ord men du har angivit att det var fel.\nVänligen kontrollera dina inmatningar bättre och försök igen.\n"
+            )
             end_of_game = f.return_to_main_menu()
             return end_of_game
         else:
@@ -81,10 +87,13 @@ def check_hints(word, hints):
 
     if wrong_hints > 0:
         print(
-            f"\nDu har angivit fel antal rätt positioner eller rätt bokstäver i {wrong_hints} av dina tips.\nDärför har Python inte kunnat gissa ditt ord.\nVänligen kontrollera dina inmatningar bättre och försök igen.")
+            f"\nDu har angivit fel antal rätt positioner eller rätt bokstäver i {wrong_hints} av dina tips.\nDärför har Python inte kunnat gissa ditt ord.\nVänligen kontrollera dina inmatningar bättre och försök igen."
+        )
         input("Tryck på valfri tangent för att fortsätta.\n")
         return "wrong"
     elif correct_hints > 0:
-        print("\nDu har angivit rätt antal rätt positioner och rätt bokstäver i dina tips.\nBra jobbat!")
+        print(
+            "\nDu har angivit rätt antal rätt positioner och rätt bokstäver i dina tips.\nBra jobbat!"
+        )
         input("Tryck på valfri tangent för att fortsätta.\n")
         return "correct"

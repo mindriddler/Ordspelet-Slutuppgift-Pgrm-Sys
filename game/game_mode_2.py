@@ -19,8 +19,8 @@ def game_func_2(user_word, python_list, num_of_turns, end_of_game):
 
             answer = w.right_or_wrong(user_word, word)
             if answer == "fel":
-                python_list = w.checking_python_guess(
-                    python_list, word, user_word)
+                python_list = w.checking_python_guess(python_list, word,
+                                                      user_word)
             elif answer == "quit":
                 f.quit_game()
             elif answer == "spara spelet":
@@ -35,7 +35,8 @@ def game_func_2(user_word, python_list, num_of_turns, end_of_game):
             end_of_game = True
         except IndexError:
             print(
-                "\nPython har inte fler ord kvar att gissa på. Kontrollerar gissningar.")
+                "\nPython har inte fler ord kvar att gissa på. Kontrollerar gissningar."
+            )
             input("Tryck på valfri tangent för att fortsätta...")
             end_of_game = h_f.get_hints(user_word)
             return end_of_game

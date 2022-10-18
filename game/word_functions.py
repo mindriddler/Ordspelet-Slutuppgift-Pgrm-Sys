@@ -11,7 +11,9 @@ def get_word():
         randWord = random.choice(listOfWords)
         return randWord
     except FileNotFoundError:
-        print("Filen 'words.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
+        print(
+            "Filen 'words.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen."
+        )
         exit()
 
 
@@ -35,7 +37,9 @@ def create_word_list():
             word_lst = [word.strip() for word in words.readlines()]
         return word_lst
     except FileNotFoundError:
-        print("Filen 'words.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen.")
+        print(
+            "Filen 'words.txt' måste finnas i data mappen för att spelet ska fungera.\nVänligen lägg till filen och försök igen."
+        )
         exit()
 
 
@@ -77,13 +81,17 @@ def correlation(correct_spot, correct_char, python_list, word, user_word):
     correct_letters = int(correct_spot) + int(correct_char)
 
     if correct_letters == 0:
-        python_list = [word for word in python_list if not len(
-            set(user_word).intersection(set(word))) == 5]
+        python_list = [
+            word for word in python_list
+            if not len(set(user_word).intersection(set(word))) == 5
+        ]
         if word in python_list:
             python_list.remove(word)
     elif correct_letters >= 1:
-        python_list = [word for word in python_list if len(
-            set(user_word).intersection(set(word))) >= correct_letters]
+        python_list = [
+            word for word in python_list
+            if len(set(user_word).intersection(set(word))) >= correct_letters
+        ]
         if word in python_list:
             python_list.remove(word)
     return python_list
@@ -100,7 +108,9 @@ def check_if_word_valid(guess, guessed_words):
             break
 
     if to_many_l > 1 or len(guess) != 5 or guess.isalpha() == False:
-        print("Ditt ord är inte ett giltligt ord. Kontrollera och välj ett nytt.")
+        print(
+            "Ditt ord är inte ett giltligt ord. Kontrollera och välj ett nytt."
+        )
         return "not valid"
     elif guess in guessed_words:
         print("Du har redan gissat på det ordet. Prova med ett annat ord.")
@@ -124,7 +134,8 @@ def checking_python_guess(python_list, word, user_word):
             continue
         else:
             h_f.save_hint(word, user_word, correct_spot, correct_char)
-            return correlation(correct_spot, correct_char, python_list, word, user_word)
+            return correlation(correct_spot, correct_char, python_list, word,
+                               user_word)
 
 
 def python_words_left(python_list):

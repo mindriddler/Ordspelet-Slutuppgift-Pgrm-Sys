@@ -35,10 +35,13 @@ def game_func_1(num_of_guesses, word, guessed_words, end_of_game):
             # To make sure the user knows how to quit the game and save the game. Good to have if the user forgets.
             while num_of_guesses % 6 == 0:
                 print(
-                    "Du kan avsluta spelet genom att skriva 'jag ger upp' eller 'quit'.")
-                print("Du kan spara ditt spel genom att skriva 'spara spelet'.")
+                    "Du kan avsluta spelet genom att skriva 'jag ger upp' eller 'quit'."
+                )
+                print(
+                    "Du kan spara ditt spel genom att skriva 'spara spelet'.")
                 break
             guessed_words.append(guess)
             checked = w.check_pos(guess, word)
             print(
-                f"\n{checked[0]} bokstäver på RÄTT plats!\n{checked[1]} korrekta bokstäver men på FEL plats.")
+                f"\n{checked[0]} bokstäver på RÄTT plats!\n{checked[1]} korrekta bokstäver men på FEL plats."
+            )
