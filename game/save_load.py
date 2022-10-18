@@ -2,24 +2,26 @@ import json
 import os
 import game.functions as f
 
+
 def save_game_gm1(word, guessed_words, num_of_guesses):
     # If the file exists, delete it before saving the new game. Right now the save feature only saves one game at a time.
-    if os.path.exists('data\save_game_1.txt'): 
-        os.remove('data\save_game_1.txt') 
+    if os.path.exists('data\save_game_1.txt'):
+        os.remove('data\save_game_1.txt')
     try:
         with open('data\save_game_1.txt', 'r', encoding="utf-8") as file:
             save_game = json.load(file)
     except FileNotFoundError:
         # If the file doesn't exist, use default values
         save_game = []
-    
+
     save_game.append((word, guessed_words, num_of_guesses))
     with open('data\save_game_1.txt', 'w', encoding="utf-8") as file:
         json.dump(save_game, file)
     print("Ditt spel har sparats!")
-    
+
     while True:
-        choice = input("Vill du fortsätta spela eller vill du avsluta spelet?: ").lower()
+        choice = input(
+            "Vill du fortsätta spela eller vill du avsluta spelet?: ").lower()
         if choice == "avsluta":
             f.quit_game()
         elif choice == "fortsätta":
@@ -31,22 +33,23 @@ def save_game_gm1(word, guessed_words, num_of_guesses):
 
 def save_game_gm2(user_word, python_list, num_of_turns):
     # If the file exists, delete it before saving the new game. Right now the save feature only saves one game at a time.
-    if os.path.exists('data\save_game_2.txt'): 
-        os.remove('data\save_game_2.txt') 
+    if os.path.exists('data\save_game_2.txt'):
+        os.remove('data\save_game_2.txt')
     try:
         with open('data\save_game_2.txt', 'r', encoding="utf-8") as file:
             save_game = json.load(file)
     except FileNotFoundError:
         # If the file doesn't exist, use default values
         save_game = []
-    
+
     save_game.append((user_word, python_list, num_of_turns))
     with open('data\save_game_2.txt', 'w', encoding="utf-8") as file:
         json.dump(save_game, file)
     print("Ditt spel har sparats!")
-    
+
     while True:
-        choice = input("Vill du fortsätta spela eller vill du avsluta spelet?: ").lower()
+        choice = input(
+            "Vill du fortsätta spela eller vill du avsluta spelet?: ").lower()
         if choice == "avsluta":
             f.quit_game()
         elif choice == "fortsätta":
@@ -57,7 +60,7 @@ def save_game_gm2(user_word, python_list, num_of_turns):
 
 
 def load_game(save_file):
-    
+
     try:
         if save_file == 'data\save_game_1.txt':
             with open(save_file, 'r', encoding="utf-8") as file:

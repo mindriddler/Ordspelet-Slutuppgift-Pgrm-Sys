@@ -15,7 +15,7 @@ def return_to_main_menu():
 
 
 def remove_hints():
-    try:    
+    try:
         if os.path.exists('data\hints.txt'):
             os.remove('data\hints.txt')
     except PermissionError:

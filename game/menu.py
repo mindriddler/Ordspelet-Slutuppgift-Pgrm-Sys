@@ -1,4 +1,3 @@
-
 import game.functions as f
 import game.game_mode_1 as gm1
 import game.game_mode_2 as gm2
@@ -26,13 +25,14 @@ Spelregler är som följer!
 
 Skriv 'ja' för att acceptera reglerna och börja spelet.
 Skriv 'nej' för att neka reglerna och avsluta spelet.""")
-    
+
         accept = input("\nAccepterar du spelreglerna?: ").lower()
         if accept == "ja":
             f.clear_screen()
             main_menu()
         elif accept == "nej":
-            print("Då får du inte lov att vara med och spela.\nAvslutar spelet.")
+            print(
+                "Då får du inte lov att vara med och spela.\nAvslutar spelet.")
             exit()
         else:
             print("""\nVänligen acceptera spelreglerna för att kunna spela.
@@ -41,9 +41,8 @@ Skriv 'nej' för att neka reglerna och avsluta spelet.""")
             input("Tryck på valfri tangent för att fortsätta...")
 
 
-def main_menu():   
-    
-    
+def main_menu():
+
     while True:
         print("""
 ----------MAIN MENU----------   --------------------Spelregler är som följer!--------------------
@@ -57,18 +56,26 @@ def main_menu():
 | 8. Återställ highscore    |
 | 9. Avsluta                |
 -----------------------------        
-""")  
+""")
         try:
             choice = int(input("Välj ett alternativ: "))
             if choice == 1:
                 f.clear_screen()
-                gm1.game_func_1(num_of_guesses=0, word=w.get_word(), guessed_words=[], end_of_game=False)
+                gm1.game_func_1(num_of_guesses=0,
+                                word=w.get_word(),
+                                guessed_words=[],
+                                end_of_game=False)
             elif choice == 2:
-                f.remove_hints() # To remove hints from previous game, if still there
+                f.remove_hints(
+                )  # To remove hints from previous game, if still there
                 f.clear_screen()
-                gm2.game_func_2(num_of_turns=0, user_word=w.player_word(), python_list=w.create_word_list(), end_of_game=False)
+                gm2.game_func_2(num_of_turns=0,
+                                user_word=w.player_word(),
+                                python_list=w.create_word_list(),
+                                end_of_game=False)
             elif choice == 3:
-                choice = int(input("Vill du ladda ett spel från spelläge 1 eller 2?: "))
+                choice = int(
+                    input("Vill du ladda ett spel från spelläge 1 eller 2?: "))
                 if choice == 1:
                     load = sl.load_game(save_file='data\save_game_1.txt')
                     if load == FileNotFoundError:
@@ -80,7 +87,10 @@ def main_menu():
                         print("\nDitt spel har laddats!\n")
                         input("Tryck på valfri tangent för att fortsätta...")
                         f.clear_screen()
-                        gm1.game_func_1(num_of_guesses, word, guessed_words, end_of_game=False)
+                        gm1.game_func_1(num_of_guesses,
+                                        word,
+                                        guessed_words,
+                                        end_of_game=False)
                 elif choice == 2:
                     load = sl.load_game(save_file='data\save_game_2.txt')
                     if load == FileNotFoundError:
@@ -92,12 +102,17 @@ def main_menu():
                         print("\nDitt spel har laddats!\n")
                         input("Tryck på valfri tangent för att fortsätta...")
                         f.clear_screen()
-                        gm2.game_func_2(user_word, python_list, num_of_turns, end_of_game=False)
+                        gm2.game_func_2(user_word,
+                                        python_list,
+                                        num_of_turns,
+                                        end_of_game=False)
                 else:
                     print("Du måste ange 1 eller 2.\nÅtergår till huvudmenyn.")
                     input("Tryck på valfri tangent för att fortsätta...")
             elif choice == 4:
-                choice = int(input("Vill du radera ett spel från spelläge 1 eller 2?: "))
+                choice = int(
+                    input(
+                        "Vill du radera ett spel från spelläge 1 eller 2?: "))
                 if choice == 1:
                     sl.delete_save(save_file='data\save_game_1.txt')
                 elif choice == 2:
@@ -124,9 +139,10 @@ def main_menu():
             else:
                 print("Du måste ange en siffra.")
                 input("Tryck på valfri tangent för att fortsätta...")
-                
-        
+
         except ValueError:
-            print("Du måste ange siffran som stämmer överens med det val du vill göra.")
+            print(
+                "Du måste ange siffran som stämmer överens med det val du vill göra."
+            )
             input("Tryck på valfri tangent för att fortsätta...")
             f.clear_screen()
